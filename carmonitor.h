@@ -2,6 +2,7 @@
 #define CARMONITOR_H
 
 #include <QMainWindow>
+#include <QCamera>
 
 namespace Ui {
 class CarMonitor;
@@ -15,8 +16,12 @@ public:
     explicit CarMonitor(QWidget *parent = nullptr);
     ~CarMonitor();
 
+private slots:
+    void setCamera(const QCameraInfo &cameraInfo);
+
 private:
     Ui::CarMonitor *ui;
+    QScopedPointer<QCamera> m_camera;
 };
 
 #endif // CARMONITOR_H
