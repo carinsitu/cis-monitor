@@ -8,8 +8,13 @@ CarMonitor::CarMonitor(QWidget *parent) :
     ui(new Ui::CarMonitor)
 {
     ui->setupUi(this);
-    setCamera(QCameraInfo::defaultCamera());
 
+    const QList<QCameraInfo> availableCameras = QCameraInfo::availableCameras();
+    for (const QCameraInfo &cameraInfo : availableCameras) {
+        qDebug() << cameraInfo;
+    }
+
+    setCamera(QCameraInfo("/dev/video0"));
 }
 
 CarMonitor::~CarMonitor()
@@ -19,7 +24,10 @@ CarMonitor::~CarMonitor()
 
 void CarMonitor::setCamera(const QCameraInfo &cameraInfo)
 {
+    qDebug() << "Selected camera: " << cameraInfo;
     m_camera.reset(new QCamera(cameraInfo));
     m_camera->setViewfinder(ui->viewfinder);
     m_camera->start();
+    qDebug() << m_camera->error();
+    qDebug() << "Used camera: " << QCameraInfo(*m_camera);
 }
