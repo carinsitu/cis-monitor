@@ -2,7 +2,9 @@
 #include "ui_carmonitor.h"
 
 #include <QCameraInfo>
-#include <QCameraViewfinder>
+#include <QGraphicsVideoItem>
+#include <QGraphicsView>
+#include <QGraphicsScene>
 
 CarMonitor::CarMonitor(QWidget *parent) :
     QMainWindow(parent),
@@ -14,6 +16,7 @@ CarMonitor::CarMonitor(QWidget *parent) :
     for (const QCameraInfo &cameraInfo : availableCameras) {
         createCameraView(cameraInfo);
     }
+
 }
 
 CarMonitor::~CarMonitor()
@@ -28,8 +31,13 @@ void CarMonitor::createCameraView(const QCameraInfo &cameraInfo)
     qputenv("QT_GSTREAMER_CAMERABIN_VIDEOSRC", env.toUtf8());
 
     QCamera* camera = new QCamera(cameraInfo);
-    QCameraViewfinder* viewfinder = new QCameraViewfinder;
-    ui->verticalLayout->addWidget(viewfinder);
-    camera->setViewfinder(viewfinder);
+    QGraphicsScene* scene = new QGraphicsScene(this);
+    QGraphicsView* view = new QGraphicsView(scene, ui->centralWidget);
+    ui->verticalLayout->addWidget(view);
+
+    QGraphicsVideoItem *item = new QGraphicsVideoItem;
+    camera->setViewfinder(item);
+    view->scene()->addItem(item);
+    view->show();
     camera->start();
 }
