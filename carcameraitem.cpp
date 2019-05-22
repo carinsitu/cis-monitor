@@ -11,7 +11,7 @@ CarCameraItem::CarCameraItem(const QCameraInfo &cameraInfo, QGraphicsView* view)
         this->setPreferredSize(640, 480);
 
         // Video source
-        m_videoSource = QGst::Bin::fromDescription("v4l2src device=" + cameraInfo.deviceName() + " ! image/jpeg,width=640,height=480,framerate=60/1,type=video ! jpegdec ! videoconvert");
+        m_videoSource = QGst::Bin::fromDescription("v4l2src device=" + cameraInfo.deviceName() + " ! jpegdec ! videoconvert");
 
         // Sink
         QGst::ElementPtr videoSink = surface->videoSink();
