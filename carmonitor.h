@@ -17,7 +17,7 @@ public:
     ~CarMonitor();
 
 private slots:
-    void setCamera(const QCameraInfo &cameraInfo);
+    void createCameraView(const QCameraInfo &cameraInfo);
 
 private:
     Ui::CarMonitor *ui;

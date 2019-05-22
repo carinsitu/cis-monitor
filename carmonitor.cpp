@@ -2,6 +2,7 @@
 #include "ui_carmonitor.h"
 
 #include <QCameraInfo>
+#include <QCameraViewfinder>
 
 CarMonitor::CarMonitor(QWidget *parent) :
     QMainWindow(parent),
@@ -11,10 +12,8 @@ CarMonitor::CarMonitor(QWidget *parent) :
 
     const QList<QCameraInfo> availableCameras = QCameraInfo::availableCameras();
     for (const QCameraInfo &cameraInfo : availableCameras) {
-        qDebug() << cameraInfo;
+        createCameraView(cameraInfo);
     }
-
-    setCamera(QCameraInfo("/dev/video0"));
 }
 
 CarMonitor::~CarMonitor()
@@ -22,12 +21,15 @@ CarMonitor::~CarMonitor()
     delete ui;
 }
 
-void CarMonitor::setCamera(const QCameraInfo &cameraInfo)
+void CarMonitor::createCameraView(const QCameraInfo &cameraInfo)
 {
-    qDebug() << "Selected camera: " << cameraInfo;
-    m_camera.reset(new QCamera(cameraInfo));
-    m_camera->setViewfinder(ui->viewfinder);
-    m_camera->start();
-    qDebug() << m_camera->error();
-    qDebug() << "Used camera: " << QCameraInfo(*m_camera);
+    // HACK: Hardcoded device= setting when video source is v4l2src
+    QString env = QString("uvcvideo=v4l2src device=") + cameraInfo.deviceName() + QString( " ! jpegdec ! videoconvert");
+    qputenv("QT_GSTREAMER_CAMERABIN_VIDEOSRC", env.toUtf8());
+
+    QCamera* camera = new QCamera(cameraInfo);
+    QCameraViewfinder* viewfinder = new QCameraViewfinder;
+    ui->verticalLayout->addWidget(viewfinder);
+    camera->setViewfinder(viewfinder);
+    camera->start();
 }
