@@ -21,7 +21,6 @@ private slots:
 
 private:
     Ui::CarMonitor *ui;
-    QScopedPointer<QCamera> m_camera;
 };
 
 #endif // CARMONITOR_H
