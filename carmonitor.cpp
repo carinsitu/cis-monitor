@@ -32,7 +32,8 @@ void CarMonitor::createCameraView(const QCameraInfo &cameraInfo)
     QGraphicsView* view = new QGraphicsView(scene, ui->centralWidget);
     ui->centralLayout->addWidget(view);
 
-    QGraphicsVideoItem *cameraItem = new CarCameraItem(cameraInfo);
+    QGraphicsWidget *cameraItem = new CarCameraItem(cameraInfo, view);
+
     view->scene()->addItem(cameraItem);
 
     QGraphicsSimpleTextItem *itemOSD = new QGraphicsSimpleTextItem(cameraItem);

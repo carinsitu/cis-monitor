@@ -24,6 +24,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 CONFIG += c++11
 
+# Tell qmake to use pkg-config to find QtGStreamer.
+CONFIG += link_pkgconfig
+# Now tell qmake to link to QtGStreamer and also use its include path and Cflags.
+PKGCONFIG += Qt5GStreamer-1.0 Qt5GStreamerUi-1.0
+
+
 SOURCES += \
         carcameraitem.cpp \
         main.cpp \

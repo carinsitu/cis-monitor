@@ -5,11 +5,18 @@
 
 #include <QGraphicsVideoItem>
 #include <QCameraInfo>
+#include <QGst/Ui/GraphicsVideoWidget>
+#include <QGst/Pipeline>
+#include <QGst/Bin>
 
-class CarCameraItem : public QGraphicsVideoItem
+class CarCameraItem : public QGst::Ui::GraphicsVideoWidget
 {
 public:
-    CarCameraItem(const QCameraInfo &cameraInfo);
+    CarCameraItem(const QCameraInfo &cameraInfo, QGraphicsView* view);
+
+private:
+    QGst::BinPtr m_videoSource;
+    QGst::PipelinePtr m_pipeline;
 };
 
 #endif // CARCAMERAITEM_H
