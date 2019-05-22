@@ -25,10 +25,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        carcameraitem.cpp \
         main.cpp \
         carmonitor.cpp
 
 HEADERS += \
+        carcameraitem.h \
         carmonitor.h
 
 FORMS += \

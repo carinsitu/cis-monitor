@@ -2,9 +2,11 @@
 #include "ui_carmonitor.h"
 
 #include <QCameraInfo>
-#include <QGraphicsVideoItem>
+
 #include <QGraphicsView>
 #include <QGraphicsScene>
+
+#include "carcameraitem.h"
 
 CarMonitor::CarMonitor(QWidget *parent) :
     QMainWindow(parent),
@@ -12,11 +14,11 @@ CarMonitor::CarMonitor(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    const QList<QCameraInfo> availableCameras = QCameraInfo::availableCameras();
-    for (const QCameraInfo &cameraInfo : availableCameras) {
-        createCameraView(cameraInfo);
+    for(int i = 0; i<6; i++) {
+        QString deviceName("/dev/video");
+        deviceName += QString::number(i);
+        createCameraView(QCameraInfo(deviceName.toUtf8()));
     }
-
 }
 
 CarMonitor::~CarMonitor()
@@ -26,23 +28,17 @@ CarMonitor::~CarMonitor()
 
 void CarMonitor::createCameraView(const QCameraInfo &cameraInfo)
 {
-    // HACK: Hardcoded device= setting when video source is v4l2src
-    QString env = QString("uvcvideo=v4l2src device=") + cameraInfo.deviceName() + QString( " ! jpegdec ! videoconvert");
-    qputenv("QT_GSTREAMER_CAMERABIN_VIDEOSRC", env.toUtf8());
-
-    QCamera* camera = new QCamera(cameraInfo);
     QGraphicsScene* scene = new QGraphicsScene(this);
     QGraphicsView* view = new QGraphicsView(scene, ui->centralWidget);
-    ui->verticalLayout->addWidget(view);
+    ui->centralLayout->addWidget(view);
 
-    QGraphicsVideoItem *itemCamera = new QGraphicsVideoItem;
-    camera->setViewfinder(itemCamera);
-    view->scene()->addItem(itemCamera);
-    view->show();
-    camera->start();
+    QGraphicsVideoItem *cameraItem = new CarCameraItem(cameraInfo);
+    view->scene()->addItem(cameraItem);
 
-    QGraphicsSimpleTextItem *itemOSD = new QGraphicsSimpleTextItem(itemCamera);
+    QGraphicsSimpleTextItem *itemOSD = new QGraphicsSimpleTextItem(cameraItem);
     scene->addSimpleText(cameraInfo.deviceName());
 
-    qDebug() << "HELLO: " << itemCamera->size();
+    view->show();
+
+    qDebug() << "HELLO: " << cameraItem->size();
 }
