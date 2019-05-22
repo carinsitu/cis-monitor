@@ -41,5 +41,5 @@ QT_GSTREAMER_CAMERABIN_VIDEOSRC=v4l2src ! jpegdec ! videoconvert
 ## libQtGStreamer based implementation
 
 ```shell
-sudo apt install XXX
+sudo apt install libqt5gstreamer-dev
 ```
