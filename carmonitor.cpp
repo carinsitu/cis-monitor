@@ -5,6 +5,7 @@
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QOpenGLWidget>
 
 #include "carcameraitem.h"
 
@@ -35,6 +36,7 @@ void CarMonitor::createCameraView(const QCameraInfo &cameraInfo)
     QGraphicsWidget *cameraItem = new CarCameraItem(cameraInfo, view);
 
     view->scene()->addItem(cameraItem);
+    view->setViewport(new QOpenGLWidget);
 
     QGraphicsSimpleTextItem *itemOSD = new QGraphicsSimpleTextItem(cameraItem);
     scene->addSimpleText(cameraInfo.deviceName());
