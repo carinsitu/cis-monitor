@@ -33,11 +33,13 @@ PKGCONFIG += Qt5GStreamer-1.0 Qt5GStreamerUi-1.0
 SOURCES += \
         carcameraitem.cpp \
         main.cpp \
-        carmonitor.cpp
+        carmonitor.cpp \
+        playerdisplay.cpp
 
 HEADERS += \
         carcameraitem.h \
-        carmonitor.h
+        carmonitor.h \
+        playerdisplay.h
 
 FORMS += \
         carmonitor.ui
