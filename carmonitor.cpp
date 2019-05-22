@@ -15,7 +15,7 @@ CarMonitor::CarMonitor(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    for(int i = 0; i<6; i++) {
+    for(int i = 0; i<3; i++) {
         QString deviceName("/dev/video");
         deviceName += QString::number(i);
         createCameraView(QCameraInfo(deviceName.toUtf8()));
