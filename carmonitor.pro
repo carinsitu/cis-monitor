@@ -34,12 +34,14 @@ SOURCES += \
         carcameraitem.cpp \
         main.cpp \
         carmonitor.cpp \
-        playerdisplay.cpp
+        playerdisplay.cpp \
+        playerview.cpp
 
 HEADERS += \
         carcameraitem.h \
         carmonitor.h \
-        playerdisplay.h
+        playerdisplay.h \
+        playerview.h
 
 FORMS += \
         carmonitor.ui
