@@ -19,8 +19,12 @@ PlayerDisplay::PlayerDisplay(const QCameraInfo &cameraInfo, QObject *parent) : Q
     m_osd = new QGraphicsItemGroup(cameraItem);
 
     // Display device name in OSD
-    new QGraphicsSimpleTextItem(cameraInfo.deviceName(), m_osd);
+    m_text = new QGraphicsSimpleTextItem(cameraInfo.deviceName(), m_osd);
 
     // Display a red rect in OSD (through whole scene)
     scene->addRect(0, 0, 320, 240, QPen(QColor("red")));
+}
+
+void PlayerDisplay::setMessage(QString message) {
+    m_text->setText(message);
 }
