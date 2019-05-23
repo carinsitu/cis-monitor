@@ -1,17 +1,27 @@
 # Car Monitor
 
-## QCamera based implementation
+## Global requiements
 
-### Requiements
-
-To use this implementation, you need Qt 5.12.x installed through Qt official way:
+You need Qt 5.12.x installed through Qt official way:
 
 1. Download http://download.qt.io/official_releases/online_installers/qt-unified-linux-x64-online.run
 1. Change permissions (ie. `chmod +x qt-unified-linux*.run`)
 1. Launch installer (ie. `./qt-unified-linux*.run`
 1. Install whole needed things
 
-Next, you need a patched `qtmultimedia`:
+The project uses MQTT and QtMqtt need to be compiled and installed from source.
+
+```shell
+git clone git://code.qt.io/qt/qtmqtt.git
+cd qtmqtt
+qmake
+make -j4
+make install
+```
+
+## QCamera based implementation
+
+You need a patched `qtmultimedia`:
 
 1. Dowload
 
