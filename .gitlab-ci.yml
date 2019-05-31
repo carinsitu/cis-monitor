@@ -1,0 +1,11 @@
+---
+image: ubuntu:18.04
+
+before_script:
+  - apt-get -qq update
+  - apt-get -qq --assume-yes install git clang-format
+
+lint:
+    script:
+      - clang-format -i *.cpp *.h
+      - git diff --exit-code
