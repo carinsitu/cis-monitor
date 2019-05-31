@@ -47,6 +47,12 @@ HEADERS += \
 FORMS += \
         carmonitor.ui
 
+# Custom commands
+lint.commands = \
+        clang-format -i $$HEADERS $$SOURCES
+
+QMAKE_EXTRA_TARGETS += lint
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
