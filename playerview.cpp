@@ -5,12 +5,12 @@
 
 #include <QPushButton>
 
-PlayerView::PlayerView(QWidget *parent) : QDialog(parent)
+PlayerView::PlayerView(QWidget* parent) : QDialog(parent)
 {
-    QVBoxLayout *lMain = new QVBoxLayout(this);
+    QVBoxLayout* lMain = new QVBoxLayout(this);
     lMain->setSpacing(0);
     lMain->setMargin(0);
-    lMain->setContentsMargins(0,0,0,0);
+    lMain->setContentsMargins(0, 0, 0, 0);
 
     m_view = new QGraphicsView(this);
     m_view->setResizeAnchor(QGraphicsView::AnchorViewCenter);
@@ -24,15 +24,14 @@ PlayerView::PlayerView(QWidget *parent) : QDialog(parent)
     // this->setWindowFlags(this->windowFlags() | Qt::FramelessWindowHint);
 }
 
-void PlayerView::resizeEvent(QResizeEvent *event)
+void PlayerView::resizeEvent(QResizeEvent* event)
 {
-    m_view->fitInView(0,0,640,480);
+    m_view->fitInView(0, 0, 640, 480);
 }
 
-void PlayerView::mousePressEvent(QMouseEvent *event)
+void PlayerView::mousePressEvent(QMouseEvent* event)
 {
-    if (event->type() ==  QEvent::MouseButtonDblClick)
-    {
+    if (event->type() == QEvent::MouseButtonDblClick) {
         tbFullScreenToggled(false);
     }
 }
@@ -40,15 +39,16 @@ void PlayerView::mousePressEvent(QMouseEvent *event)
 void PlayerView::tbFullScreenToggled(bool on)
 {
     (void)on;
-    if(isFullScreen()) {
-         this->setWindowState(Qt::WindowMaximized);
-      } else {
-         this->setWindowState(Qt::WindowFullScreen);
-      }
+    if (isFullScreen()) {
+        this->setWindowState(Qt::WindowMaximized);
+    } else {
+        this->setWindowState(Qt::WindowFullScreen);
+    }
 }
 
-void PlayerView::keyPressEvent(QKeyEvent *e) {
-    if(e->key() != Qt::Key_Escape)
+void PlayerView::keyPressEvent(QKeyEvent* e)
+{
+    if (e->key() != Qt::Key_Escape)
         QDialog::keyPressEvent(e);
     else {
         tbFullScreenToggled(false);

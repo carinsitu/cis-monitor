@@ -10,7 +10,7 @@ class PlayerDisplay : public QObject
 {
     Q_OBJECT
 public:
-    explicit PlayerDisplay(const QCameraInfo &cameraInfo, QObject *parent = nullptr);
+    explicit PlayerDisplay(const QCameraInfo& cameraInfo, QObject* parent = nullptr);
     QGraphicsItemGroup* osd() { return m_osd; }
     void setMessage(QString message);
 

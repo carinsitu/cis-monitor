@@ -12,7 +12,7 @@
 class CarCameraItem : public QGst::Ui::GraphicsVideoWidget
 {
 public:
-    CarCameraItem(const QCameraInfo &cameraInfo, QGraphicsView* view);
+    CarCameraItem(const QCameraInfo& cameraInfo, QGraphicsView* view);
 
 private:
     QGst::BinPtr m_videoSource;

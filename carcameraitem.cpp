@@ -1,11 +1,11 @@
 #include "carcameraitem.h"
 #include <QGst/Ui/GraphicsVideoSurface>
 
-CarCameraItem::CarCameraItem(const QCameraInfo &cameraInfo, QGraphicsView* view)
+CarCameraItem::CarCameraItem(const QCameraInfo& cameraInfo, QGraphicsView* view)
 {
-    if(!cameraInfo.isNull()){
+    if (!cameraInfo.isNull()) {
         // Prepare video element
-        QGst::Ui::GraphicsVideoSurface *surface = new QGst::Ui::GraphicsVideoSurface(view);
+        QGst::Ui::GraphicsVideoSurface* surface = new QGst::Ui::GraphicsVideoSurface(view);
         this->setSurface(surface);
 
         this->setPreferredSize(640, 480);

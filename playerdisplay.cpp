@@ -5,7 +5,7 @@
 
 #include <QGraphicsView>
 
-PlayerDisplay::PlayerDisplay(const QCameraInfo &cameraInfo, QObject *parent) : QObject(parent)
+PlayerDisplay::PlayerDisplay(const QCameraInfo& cameraInfo, QObject* parent) : QObject(parent)
 {
     QGraphicsScene* scene = new QGraphicsScene(this);
 
@@ -13,7 +13,7 @@ PlayerDisplay::PlayerDisplay(const QCameraInfo &cameraInfo, QObject *parent) : Q
     playerView->view()->setScene(scene);
     playerView->show();
 
-    QGraphicsWidget *cameraItem = new CarCameraItem(cameraInfo, playerView->view());
+    QGraphicsWidget* cameraItem = new CarCameraItem(cameraInfo, playerView->view());
     scene->addItem(cameraItem);
 
     m_osd = new QGraphicsItemGroup(cameraItem);
@@ -25,6 +25,7 @@ PlayerDisplay::PlayerDisplay(const QCameraInfo &cameraInfo, QObject *parent) : Q
     scene->addRect(0, 0, 320, 240, QPen(QColor("red")));
 }
 
-void PlayerDisplay::setMessage(QString message) {
+void PlayerDisplay::setMessage(QString message)
+{
     m_text->setText(message);
 }
