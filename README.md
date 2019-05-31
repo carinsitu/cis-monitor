@@ -1,5 +1,15 @@
 # Car Monitor
 
+## Development
+
+Tips: to lint your code use:
+
+```shell
+make lint
+```
+
+Note: this command is available after a successfull `qmake` run and require `clang-format` binary.
+
 ## Global requirements
 
 You need Qt 5.12.x installed through Qt official way:
