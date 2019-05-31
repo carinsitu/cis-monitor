@@ -1,6 +1,6 @@
 # Car Monitor
 
-## Global requiements
+## Global requirements
 
 You need Qt 5.12.x installed through Qt official way:
 
@@ -14,6 +14,7 @@ The project uses MQTT and QtMqtt need to be compiled and installed from source.
 ```shell
 git clone git://code.qt.io/qt/qtmqtt.git
 cd qtmqtt
+export PATH=$HOME/Qt/5.12.3/gcc_64/bin:$PATH
 qmake
 make -j4
 make install
@@ -34,7 +35,7 @@ git checkout fix-gstreamer-source-parsing
 2. Compile and install
 
 ```shell
-export PATH=$HOME/Qt/5.12.2/gcc_64/bin:$PATH
+export PATH=$HOME/Qt/5.12.3/gcc_64/bin:$PATH
 qmake
 make -j4
 make install
