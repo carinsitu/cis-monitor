@@ -12,22 +12,22 @@ CarMonitor::CarMonitor(QWidget* parent) : QMainWindow(parent), ui(new Ui::CarMon
 {
     ui->setupUi(this);
 
-    // init Mqtt client
+    // MQTT
     m_client = new QMqttClient(this);
     m_client->setHostname(m_mqttHost);
     m_client->setPort(m_mqttPort);
 
     connect(m_client, &QMqttClient::stateChanged, this, &CarMonitor::updateLogStateChange);
-
     connect(m_client, &QMqttClient::messageReceived, this, &CarMonitor::onMqttMessageReceived);
 
+    m_client->connectToHost();
+
+    // FPV
     for (int i = 0; i < m_maxDisplays; i++) {
         QString deviceName("/dev/video");
         deviceName += QString::number(i);
         createCameraView(QCameraInfo(deviceName.toUtf8()));
     }
-
-    m_client->connectToHost();
 }
 
 CarMonitor::~CarMonitor()
