@@ -8,6 +8,9 @@
 #include <QtMqtt/QMqttClient>
 #include <QtWidgets/QMessageBox>
 
+#include <QGuiApplication>
+#include <QScreen>
+
 CarMonitor::CarMonitor(QWidget* parent) : QMainWindow(parent), ui(new Ui::CarMonitor)
 {
     ui->setupUi(this);
@@ -21,6 +24,15 @@ CarMonitor::CarMonitor(QWidget* parent) : QMainWindow(parent), ui(new Ui::CarMon
     connect(m_client, &QMqttClient::messageReceived, this, &CarMonitor::onMqttMessageReceived);
 
     m_client->connectToHost();
+
+    // Screens
+    foreach (QScreen* screen, QGuiApplication::screens()) {
+        if (qGuiApp->primaryScreen() == screen) {
+            qDebug() << "Screen: (primary):" << screen->name();
+        } else {
+            qDebug() << "Screen (secondary): " << screen->name();
+        }
+    }
 
     // FPV
     for (int i = 0; i < m_maxDisplays; i++) {
