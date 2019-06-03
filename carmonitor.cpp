@@ -2,6 +2,7 @@
 #include "ui_carmonitor.h"
 #include "cockpit.h"
 #include "cockpitmonitor.h"
+#include "cockpitheadsetview.h"
 
 #include <QtMqtt/QMqttClient>
 
@@ -10,6 +11,8 @@
 #include <QCameraInfo>
 #include <QtWidgets/QMessageBox>
 #include <QGridLayout>
+
+#include <QGuiApplication>
 
 CarMonitor::CarMonitor(QWidget* parent) : QMainWindow(parent), ui(new Ui::CarMonitor)
 {
@@ -25,12 +28,16 @@ CarMonitor::CarMonitor(QWidget* parent) : QMainWindow(parent), ui(new Ui::CarMon
 
     m_mqttClient->connectToHost();
 
+    connect(qApp, &QGuiApplication::primaryScreenChanged, this, &CarMonitor::onPrimaryScreenChanged);
+
     // Screens
+    QList<QScreen*> screensAvailable;
     foreach (QScreen* screen, QGuiApplication::screens()) {
         if (qGuiApp->primaryScreen() == screen) {
             qDebug() << "Screen: (primary):" << screen->name();
         } else {
             qDebug() << "Screen (secondary): " << screen->name();
+            screensAvailable.append(screen);
         }
     }
 
@@ -44,6 +51,10 @@ CarMonitor::CarMonitor(QWidget* parent) : QMainWindow(parent), ui(new Ui::CarMon
         monitor->setTitle(title);
         ui->centralLayout->addWidget(monitor, i % 2, i / 2);
         m_cockpits.append(cockpit);
+        if (screensAvailable.size()) {
+            CockpitHeadsetView* headsetView = new CockpitHeadsetView(cockpit);
+            headsetView->setScreen(screensAvailable.takeFirst());
+        }
     }
 }
 
@@ -80,4 +91,9 @@ void CarMonitor::onMqttMessageReceived(const QByteArray& message, const QMqttTop
             m_cockpits.at(cockpitId)->processMqttMessage(cockpitTopic, message);
         }
     }
+}
+
+void CarMonitor::onPrimaryScreenChanged(QScreen* screen)
+{
+    qDebug() << Q_FUNC_INFO << "Screen: " << screen->name();
 }

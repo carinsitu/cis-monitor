@@ -23,6 +23,7 @@ public:
 private slots:
     void onMqttStateChanged();
     void onMqttMessageReceived(const QByteArray& message, const QMqttTopicName& topic);
+    void onPrimaryScreenChanged(QScreen *screen);
 
 private:
     Ui::CarMonitor* ui;

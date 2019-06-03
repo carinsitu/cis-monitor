@@ -27,6 +27,7 @@ CONFIG += c++11
 
 SOURCES += \
         cockpit.cpp \
+        cockpitheadsetview.cpp \
         cockpitmonitor.cpp \
         cockpitmonitorview.cpp \
         main.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
 HEADERS += \
         carmonitor.h \
         cockpit.h \
+        cockpitheadsetview.h \
         cockpitmonitor.h \
         cockpitmonitorview.h \
         videoinputitem.h
