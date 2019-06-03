@@ -1,7 +1,7 @@
 #include "playerdisplay.h"
 
-#include "carcameraitem.h"
 #include "playerview.h"
+#include "videoinputitem.h"
 
 #include <QGraphicsView>
 
@@ -13,7 +13,7 @@ PlayerDisplay::PlayerDisplay(const QCameraInfo& cameraInfo, QObject* parent) : Q
     playerView->view()->setScene(scene);
     playerView->show();
 
-    QGraphicsWidget* cameraItem = new CarCameraItem(cameraInfo, playerView->view());
+    QGraphicsItem* cameraItem = new VideoInputItem(cameraInfo);
     scene->addItem(cameraItem);
 
     m_osd = new QGraphicsItemGroup(cameraItem);
