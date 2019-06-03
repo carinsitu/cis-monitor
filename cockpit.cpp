@@ -40,6 +40,13 @@ void Cockpit::processMqttMessage(const QString& topic, const QByteArray& message
     // text
     if (topic == QString("text")) {
         m_text->setText(message);
+    } else if (topic == QString("car/throttle")) {
+        int speed = message.toInt();
+        if (speed < 0)
+            speed = -speed;
+        qreal speedReal = static_cast<qreal>(speed) / 32767.0;
+        qint16 speedPercent = static_cast<qint16>(speedReal * 100.0);
+        m_speedCounter->setSpeed(speedPercent);
     } else {
         qDebug() << Q_FUNC_INFO << "MQTT message dropped: " << message << "from topic: " << topic;
     }
