@@ -1,6 +1,6 @@
 #include "videoinputitem.h"
 
-VideoInputItem::VideoInputItem(const QCameraInfo& cameraInfo)
+VideoInputItem::VideoInputItem(const QCameraInfo& cameraInfo, QGraphicsItem* parent) : QGraphicsVideoItem(parent)
 {
     QString pipelines =
         "uvcvideo:v4l2src ! jpegdec ! videoconvert;tw686x:v4l2src norm=255 ! video/x-raw,format=YUY2,interlace-mode=interleaved ! deinterlace ! videoconvert";

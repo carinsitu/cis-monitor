@@ -9,7 +9,7 @@
 class VideoInputItem : public QGraphicsVideoItem
 {
 public:
-    VideoInputItem(const QCameraInfo& cameraInfo);
+    VideoInputItem(const QCameraInfo& cameraInfo, QGraphicsItem* parent = nullptr);
 };
 
 #endif // VIDEOINPUTITEM_H
