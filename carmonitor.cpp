@@ -16,14 +16,16 @@ CarMonitor::CarMonitor(QWidget* parent) : QMainWindow(parent), ui(new Ui::CarMon
     ui->setupUi(this);
 
     // MQTT
-    m_client = new QMqttClient(this);
-    m_client->setHostname(m_mqttHost);
-    m_client->setPort(m_mqttPort);
+    m_mqttClient = new QMqttClient(this);
+    QString m_mqttTopic = "carinsitu/car";
 
-    connect(m_client, &QMqttClient::stateChanged, this, &CarMonitor::updateLogStateChange);
-    connect(m_client, &QMqttClient::messageReceived, this, &CarMonitor::onMqttMessageReceived);
+    m_mqttClient->setHostname("localhost");
+    m_mqttClient->setPort(1883);
 
-    m_client->connectToHost();
+    connect(m_mqttClient, &QMqttClient::stateChanged, this, &CarMonitor::onMqttStateChanged);
+    connect(m_mqttClient, &QMqttClient::messageReceived, this, &CarMonitor::onMqttMessageReceived);
+
+    m_mqttClient->connectToHost();
 
     // Screens
     foreach (QScreen* screen, QGuiApplication::screens()) {
@@ -52,12 +54,12 @@ CarMonitor::~CarMonitor()
     delete ui;
 }
 
-void CarMonitor::updateLogStateChange()
+void CarMonitor::onMqttStateChanged()
 {
-    switch (m_client->state()) {
+    switch (m_mqttClient->state()) {
     case QMqttClient::Connected: {
         // subscribe to topic
-        auto subscription = m_client->subscribe(m_mqttTopic + "/#");
+        auto subscription = m_mqttClient->subscribe(m_mqttTopic + "/#");
         if (!subscription) {
             QMessageBox::critical(this, QLatin1String("Error"), QLatin1String("Could not subscribe. Is there a valid connection?"));
             return;
@@ -65,7 +67,7 @@ void CarMonitor::updateLogStateChange()
         break;
     }
     default: {
-        qDebug() << "MQTT state: " << m_client->state();
+        qDebug() << "MQTT state: " << m_mqttClient->state();
     }
     }
 }

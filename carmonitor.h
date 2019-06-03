@@ -21,15 +21,12 @@ public:
     ~CarMonitor();
 
 private slots:
-    void updateLogStateChange();
+    void onMqttStateChanged();
     void onMqttMessageReceived(const QByteArray& message, const QMqttTopicName& topic);
 
 private:
     Ui::CarMonitor* ui;
-    QMqttClient* m_client;
-    QString m_mqttHost = "localhost";
-    quint16 m_mqttPort = 1883;
-    QString m_mqttTopic = "carinsitu/car";
+    QMqttClient* m_mqttClient;
     QList<Cockpit*> m_cockpits;
 };
 
