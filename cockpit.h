@@ -17,7 +17,7 @@ public:
 
 private:
     QGraphicsScene* m_scene;
-    QGraphicsItemGroup* m_osd;
+    QGraphicsItemGroup* m_osdItemGroup;
     QGraphicsSimpleTextItem* m_text;
 
 signals:

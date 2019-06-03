@@ -1,9 +1,9 @@
 #include "cockpit.h"
 
+#include "videoinputitem.h"
+
 #include <QGraphicsScene>
 #include <QGraphicsItem>
-
-#include "videoinputitem.h"
 
 Cockpit::Cockpit(const QCameraInfo& cameraInfo, QObject* parent) : QObject(parent)
 {
@@ -12,14 +12,19 @@ Cockpit::Cockpit(const QCameraInfo& cameraInfo, QObject* parent) : QObject(paren
     QGraphicsItem* cameraItem = new VideoInputItem(cameraInfo);
     m_scene->addItem(cameraItem);
 
-    m_osd = new QGraphicsItemGroup(cameraItem);
+    m_osdItemGroup = new QGraphicsItemGroup;
+    m_scene->addItem(m_osdItemGroup);
 
     // Display device name in OSD
-    m_text = new QGraphicsSimpleTextItem(cameraInfo.deviceName(), m_osd);
+    m_text = new QGraphicsSimpleTextItem(cameraInfo.deviceName(), m_osdItemGroup);
     m_text->setPen(QColor("red"));
+    m_osdItemGroup->addToGroup(m_text);
 
-    // Display a red rect in OSD (through whole scene)
-    m_scene->addRect(0, 0, 320, 240, QPen(QColor("red")));
+    // Debug: display rects in OSD
+    m_scene->addRect(cameraItem->boundingRect(), QPen(QColor("red")));
+    m_scene->addRect(m_osdItemGroup->boundingRect(), QPen(QColor("blue")));
+    qDebug() << Q_FUNC_INFO << "Camera: " << cameraItem->boundingRect();
+    qDebug() << Q_FUNC_INFO << "OSD: " << m_osdItemGroup->boundingRect();
 }
 
 void Cockpit::processMqttMessage(const QString& topic, const QByteArray& message)
