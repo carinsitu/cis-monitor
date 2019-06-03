@@ -26,16 +26,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        cockpit.cpp \
+        cockpitmonitor.cpp \
+        cockpitmonitorview.cpp \
         main.cpp \
         carmonitor.cpp \
-        playerdisplay.cpp \
-        playerview.cpp \
         videoinputitem.cpp
 
 HEADERS += \
         carmonitor.h \
-        playerdisplay.h \
-        playerview.h \
+        cockpit.h \
+        cockpitmonitor.h \
+        cockpitmonitorview.h \
         videoinputitem.h
 
 FORMS += \

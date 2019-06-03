@@ -3,8 +3,10 @@
 
 #include <QMainWindow>
 #include <QCamera>
+
 #include <QtMqtt/QMqttClient>
-#include "playerdisplay.h"
+
+#include "cockpit.h"
 
 namespace Ui {
 class CarMonitor;
@@ -19,7 +21,6 @@ public:
     ~CarMonitor();
 
 private slots:
-    void createCameraView(const QCameraInfo& cameraInfo);
     void updateLogStateChange();
     void onMqttMessageReceived(const QByteArray& message, const QMqttTopicName& topic);
 
@@ -29,8 +30,7 @@ private:
     QString m_mqttHost = "localhost";
     quint16 m_mqttPort = 1883;
     QString m_mqttTopic = "carinsitu/car";
-    QList<PlayerDisplay*> m_displays;
-    int m_maxDisplays = 3;
+    QList<Cockpit*> m_cockpits;
 };
 
 #endif // CARMONITOR_H
