@@ -9,4 +9,5 @@ VideoInputItem::VideoInputItem(const QCameraInfo& cameraInfo, QGraphicsItem* par
     QCamera* camera = new QCamera(cameraInfo);
     camera->setViewfinder(this);
     camera->start();
+    this->setSize(QSize(640, 360));
 }
