@@ -7,6 +7,7 @@
 #include <QtMqtt/QMqttClient>
 
 #include "cockpit.h"
+#include "cockpitheadsetview.h"
 
 namespace Ui {
 class CarMonitor;
@@ -23,12 +24,17 @@ public:
 private slots:
     void onMqttStateChanged();
     void onMqttMessageReceived(const QByteArray& message, const QMqttTopicName& topic);
-    void onPrimaryScreenChanged(QScreen *screen);
+    void onPrimaryScreenChanged(QScreen* screen);
+
+    void on_pb_displayCockpitHeadsetViews_toggled(bool checked);
 
 private:
     Ui::CarMonitor* ui;
     QMqttClient* m_mqttClient;
     QList<Cockpit*> m_cockpits;
+    QList<CockpitHeadsetView*> m_cockpitHeadsetViews;
+
+    void cockpitsSetup();
 };
 
 #endif // CARMONITOR_H

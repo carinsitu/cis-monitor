@@ -12,7 +12,7 @@
 #include <QtWidgets/QMessageBox>
 #include <QGridLayout>
 
-#include <QGuiApplication>
+#include <QWindow>
 
 CarMonitor::CarMonitor(QWidget* parent) : QMainWindow(parent), ui(new Ui::CarMonitor)
 {
@@ -30,17 +30,6 @@ CarMonitor::CarMonitor(QWidget* parent) : QMainWindow(parent), ui(new Ui::CarMon
 
     connect(qApp, &QGuiApplication::primaryScreenChanged, this, &CarMonitor::onPrimaryScreenChanged);
 
-    // Screens
-    QList<QScreen*> screensAvailable;
-    foreach (QScreen* screen, QGuiApplication::screens()) {
-        if (qGuiApp->primaryScreen() == screen) {
-            qDebug() << "Screen: (primary):" << screen->name();
-        } else {
-            qDebug() << "Screen (secondary): " << screen->name();
-            screensAvailable.append(screen);
-        }
-    }
-
     // FPV
     for (int i = 0; i < 4; i++) {
         QString deviceName("/dev/video");
@@ -51,10 +40,6 @@ CarMonitor::CarMonitor(QWidget* parent) : QMainWindow(parent), ui(new Ui::CarMon
         monitor->setTitle(title);
         ui->centralLayout->addWidget(monitor, i % 2, i / 2);
         m_cockpits.append(cockpit);
-        if (screensAvailable.size()) {
-            CockpitHeadsetView* headsetView = new CockpitHeadsetView(cockpit);
-            headsetView->setScreen(screensAvailable.takeFirst());
-        }
     }
 }
 
@@ -96,4 +81,33 @@ void CarMonitor::onMqttMessageReceived(const QByteArray& message, const QMqttTop
 void CarMonitor::onPrimaryScreenChanged(QScreen* screen)
 {
     qDebug() << Q_FUNC_INFO << "Screen: " << screen->name();
+}
+
+void CarMonitor::on_pb_displayCockpitHeadsetViews_toggled(bool checked)
+{
+    if (checked) {
+        // Screens
+        QList<QScreen*> screensAvailable;
+        foreach (QScreen* screen, QGuiApplication::screens()) {
+            if (window()->windowHandle()->screen() == screen) {
+                qDebug() << "Screen: (primary):" << screen->name();
+            } else {
+                qDebug() << "Screen (secondary): " << screen->name();
+                screensAvailable.append(screen);
+            }
+        }
+
+        for (Cockpit* cockpit : m_cockpits) {
+            if (screensAvailable.size()) {
+                CockpitHeadsetView* headsetView = new CockpitHeadsetView(cockpit);
+                headsetView->setScreen(screensAvailable.takeFirst());
+                m_cockpitHeadsetViews.append(headsetView);
+            }
+        }
+    } else {
+        for (CockpitHeadsetView* cockpitHeadsetView : m_cockpitHeadsetViews) {
+            cockpitHeadsetView->deleteLater();
+        }
+        m_cockpitHeadsetViews.clear();
+    }
 }
