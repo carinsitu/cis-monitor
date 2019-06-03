@@ -50,6 +50,9 @@
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
            <widget class="QPushButton" name="pushButton_3">
+            <property name="styleSheet">
+             <string notr="true">background-color: red;</string>
+            </property>
             <property name="text">
              <string>Démarrer la partie</string>
             </property>
@@ -57,6 +60,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_5">
+            <property name="styleSheet">
+             <string notr="true">background-color: red;</string>
+            </property>
             <property name="text">
              <string>Distribuer des bonus</string>
             </property>
@@ -72,13 +78,6 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="text">
-             <string>Afficher les numéros des sorties sur les écrans</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="pb_displayCockpitHeadsetViews">
             <property name="text">
              <string>Afficher les vues in situ sur les écrans</string>
@@ -93,6 +92,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="pushButton">
+            <property name="styleSheet">
+             <string notr="true">background-color: red;</string>
+            </property>
             <property name="text">
              <string>Lancer un scan des voitures</string>
             </property>
