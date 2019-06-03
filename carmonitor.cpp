@@ -17,8 +17,6 @@ CarMonitor::CarMonitor(QWidget* parent) : QMainWindow(parent), ui(new Ui::CarMon
 
     // MQTT
     m_mqttClient = new QMqttClient(this);
-    QString m_mqttTopic = "carinsitu/car";
-
     m_mqttClient->setHostname("localhost");
     m_mqttClient->setPort(1883);
 
@@ -56,9 +54,10 @@ CarMonitor::~CarMonitor()
 
 void CarMonitor::onMqttStateChanged()
 {
+    QString m_mqttTopic = "carinsitu/cockpit";
+
     switch (m_mqttClient->state()) {
     case QMqttClient::Connected: {
-        // subscribe to topic
         auto subscription = m_mqttClient->subscribe(m_mqttTopic + "/#");
         if (!subscription) {
             QMessageBox::critical(this, QLatin1String("Error"), QLatin1String("Could not subscribe. Is there a valid connection?"));
@@ -66,17 +65,19 @@ void CarMonitor::onMqttStateChanged()
         }
         break;
     }
-    default: {
+    default:
         qDebug() << "MQTT state: " << m_mqttClient->state();
-    }
     }
 }
 
 void CarMonitor::onMqttMessageReceived(const QByteArray& message, const QMqttTopicName& topic)
 {
-    QStringList topicParts = topic.name().split('/');
-    int carNum = topicParts.last().toInt();
-    if (carNum > 0 && carNum < m_cockpits.size()) {
-        //m_cockpits.at(carNum - 1)->setMessage(message);
+    QRegExp regexp("^carinsitu/cockpit/(\\d+)/(.*)$");
+    if (regexp.indexIn(topic.name()) != -1) {
+        int cockpitId = regexp.cap(1).toInt();
+        QString cockpitTopic = regexp.cap(2);
+        if (cockpitId >= 0 && cockpitId < m_cockpits.size()) {
+            m_cockpits.at(cockpitId)->processMqttMessage(cockpitTopic, message);
+        }
     }
 }

@@ -13,6 +13,7 @@ class Cockpit : public QObject
 public:
     explicit Cockpit(const QCameraInfo& cameraInfo, QObject* parent = nullptr);
     QGraphicsScene* scene() { return m_scene; }
+    void processMqttMessage(const QString& topic, const QByteArray& message);
 
 private:
     QGraphicsScene* m_scene;
