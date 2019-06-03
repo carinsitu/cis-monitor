@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include "osdspeedcounter.h"
+
 #include <QCameraInfo>
 #include <QGraphicsItemGroup>
 #include <QGraphicsSimpleTextItem>
@@ -19,6 +21,7 @@ private:
     QGraphicsScene* m_scene;
     QGraphicsItemGroup* m_osdItemGroup;
     QGraphicsSimpleTextItem* m_text;
+    OsdSpeedCounter* m_speedCounter;
 
 signals:
 

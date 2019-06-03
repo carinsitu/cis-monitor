@@ -20,6 +20,14 @@ Cockpit::Cockpit(const QCameraInfo& cameraInfo, QObject* parent) : QObject(paren
     m_text->setPen(QColor("red"));
     m_osdItemGroup->addToGroup(m_text);
 
+    // Display speed
+    m_speedCounter = new OsdSpeedCounter(m_osdItemGroup);
+    QPointF speedCounterPos = cameraItem->boundingRect().bottomRight();
+    speedCounterPos -= m_speedCounter->boundingRect().bottomRight();
+    speedCounterPos -= QPointF(10, 10);
+    m_speedCounter->setPos(speedCounterPos);
+    m_osdItemGroup->addToGroup(m_speedCounter);
+
     // Debug: display rects in OSD
     m_scene->addRect(cameraItem->boundingRect(), QPen(QColor("red")));
     m_scene->addRect(m_osdItemGroup->boundingRect(), QPen(QColor("blue")));
