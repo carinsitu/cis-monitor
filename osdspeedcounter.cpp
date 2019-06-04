@@ -31,13 +31,13 @@ void OsdSpeedCounter::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
     // Create fill gradient
     QLinearGradient grad = QLinearGradient(QPointF(0, 0), QPointF(boundingRect().width(), 0));
-    grad.setColorAt(0, Qt::green);
-    grad.setColorAt(0.5, Qt::yellow);
-    grad.setColorAt(1, Qt::red);
+    grad.setColorAt(0, QColor(47, 197, 50, 160));
+    grad.setColorAt(0.5, QColor(255, 185, 16, 160));
+    grad.setColorAt(1, QColor(230, 0, 0, 160));
 
     QBrush brush(grad);
 
-    QRectF gradientRect = boundingRect();
+    QRectF backgroundRect = boundingRect();
 
     // Create drawing path
     QPainterPath path = QPainterPath(QPointF(0, 100));
@@ -47,10 +47,10 @@ void OsdSpeedCounter::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     path.quadTo(QPointF(50, 0), QPointF(0, boundingRect().height()));
     // Apply clip path to painter
     painter->setClipPath(path);
+    // fill the background rect
+    painter->fillRect(backgroundRect, QBrush(QColor(50, 50, 50, 80)));
     // Fill the gradient rect
-    painter->fillRect(gradientRect, grad);
-    // fill the dark masking rect
-    painter->fillRect(m_mask, QBrush(QColor(0, 0, 0, 120)));
+    painter->fillRect(m_mask, grad);
     // Add stroke
     painter->drawPath(path);
 }
@@ -59,5 +59,5 @@ void OsdSpeedCounter::setSpeed(qint16 speed)
 {
     m_text->setPlainText(QString::number(speed) + "%");
     m_text->setPos(boundingRect().width() - m_text->boundingRect().width() - 5, boundingRect().height() / 2 - 5);
-    m_mask = QRectF(QPointF(speed * (boundingRect().width() / 100), boundingRect().height()), QPointF(boundingRect().width(), 0));
+    m_mask = QRectF(QPointF(0, 0), QPointF(speed * (boundingRect().width() / 100), boundingRect().height()));
 }
