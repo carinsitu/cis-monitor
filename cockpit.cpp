@@ -4,10 +4,13 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <QFontDatabase>
 
 Cockpit::Cockpit(const QCameraInfo& cameraInfo, QObject* parent) : QObject(parent)
 {
     m_scene = new QGraphicsScene(this);
+    QFontDatabase::addApplicationFont(":/fonts/digital-7-mono.ttf");
+    QFont rssiFont = QFont("Digital-7 Mono, Regular", 15, 1);
 
     QGraphicsItem* cameraItem = new VideoInputItem(cameraInfo);
     m_scene->addItem(cameraItem);
@@ -28,6 +31,14 @@ Cockpit::Cockpit(const QCameraInfo& cameraInfo, QObject* parent) : QObject(paren
     m_speedCounter->setPos(speedCounterPos);
     m_osdItemGroup->addToGroup(m_speedCounter);
 
+    // Display rssi
+    m_rssi = new QGraphicsSimpleTextItem(cameraInfo.deviceName(), m_osdItemGroup);
+    m_rssi->setBrush(QBrush(QColor(255, 255, 255, 200)));
+    m_rssi->setFont(rssiFont);
+    m_rssi->setText("RSSI: " + QString::number(0));
+    m_rssi->setPos(cameraItem->boundingRect().topRight().x() - m_rssi->boundingRect().width() - 5, cameraItem->boundingRect().topRight().y() + 5);
+    m_osdItemGroup->addToGroup(m_rssi);
+
     // Debug: display rects in OSD
     m_scene->addRect(cameraItem->boundingRect(), QPen(QColor("red")));
     m_scene->addRect(m_osdItemGroup->boundingRect(), QPen(QColor("blue")));
@@ -47,6 +58,9 @@ void Cockpit::processMqttMessage(const QString& topic, const QByteArray& message
         qreal speedReal = static_cast<qreal>(speed) / 32767.0;
         qint16 speedPercent = static_cast<qint16>(speedReal * 100.0);
         m_speedCounter->setSpeed(speedPercent);
+    } else if (topic == QString("car/rssi")) {
+        int rssi = message.toInt();
+        m_rssi->setText("RSSI: " + QString::number(rssi));
     } else {
         qDebug() << Q_FUNC_INFO << "MQTT message dropped: " << message << "from topic: " << topic;
     }

@@ -21,6 +21,7 @@ private:
     QGraphicsScene* m_scene;
     QGraphicsItemGroup* m_osdItemGroup;
     QGraphicsSimpleTextItem* m_text;
+    QGraphicsSimpleTextItem* m_rssi;
     OsdSpeedCounter* m_speedCounter;
 
 signals:
