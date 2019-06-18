@@ -6,7 +6,7 @@ OsdSpeedCounter::OsdSpeedCounter(QGraphicsItem* parent) : QGraphicsItemGroup(par
 {
     QFontDatabase::addApplicationFont(":/fonts/digital-7-mono.ttf");
     QFont counterFont = QFont("Digital-7 Mono, Regular", 45, 1);
-    m_text = new QGraphicsTextItem(this);
+    m_text = new QGraphicsSimpleTextItem(this);
     this->addToGroup(m_text);
     m_text->setFont(counterFont);
     m_speedIndicatorClip = new OsdSpeedIndicatorClip(this);
@@ -36,7 +36,7 @@ QRectF OsdSpeedCounter::boundingRect() const
 
 void OsdSpeedCounter::setSpeed(qint16 speed)
 {
-    m_text->setPlainText(QString::number(speed) + "%");
+    m_text->setText(QString::number(speed) + "%");
     m_text->setPos(boundingRect().width() - m_text->boundingRect().width() - 5, boundingRect().height() - m_text->boundingRect().height());
     m_speedIndicatorClip->setSpeed(speed);
 }
