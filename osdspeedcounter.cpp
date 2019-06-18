@@ -8,6 +8,8 @@ OsdSpeedCounter::OsdSpeedCounter(QGraphicsItem* parent) : QGraphicsItemGroup(par
     QFont counterFont = QFont("Digital-7 Mono, Regular", 45, 1);
     m_text = new QGraphicsSimpleTextItem(this);
     this->addToGroup(m_text);
+    m_text->setBrush(QBrush(QColor(255, 255, 255, 200)));
+    m_text->setPen(QColor(0, 0, 0, 50));
     m_text->setFont(counterFont);
     m_speedIndicatorClip = new OsdSpeedIndicatorClip(this);
     this->addToGroup(m_speedIndicatorClip);

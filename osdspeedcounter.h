@@ -14,7 +14,7 @@ public:
     QRectF boundingRect() const;
 
 private:
-    QGraphicsTextItem* m_text;
+    QGraphicsSimpleTextItem* m_text;
     OsdSpeedIndicatorClip* m_speedIndicatorClip;
     QGraphicsPathItem* m_speedIndicatorUnderline;
 };
