@@ -33,6 +33,8 @@ SOURCES += \
         cockpitmonitorview.cpp \
         main.cpp \
         osdspeedcounter.cpp \
+        osdspeedindicator.cpp \
+        osdspeedindicatorclip.cpp \
         videoinputitem.cpp
 
 HEADERS += \
@@ -42,6 +44,8 @@ HEADERS += \
         cockpitmonitor.h \
         cockpitmonitorview.h \
         osdspeedcounter.h \
+        osdspeedindicator.h \
+        osdspeedindicatorclip.h \
         videoinputitem.h
 
 FORMS += \
