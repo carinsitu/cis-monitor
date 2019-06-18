@@ -41,4 +41,5 @@ void OsdSpeedCounter::setSpeed(qint16 speed)
     m_text->setText(QString::number(speed) + "%");
     m_text->setPos(boundingRect().width() - m_text->boundingRect().width() - 5, boundingRect().height() - m_text->boundingRect().height());
     m_speedIndicatorClip->setSpeed(speed);
+    this->update();
 }
