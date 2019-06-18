@@ -12,6 +12,20 @@ OsdSpeedCounter::OsdSpeedCounter(QGraphicsItem* parent) : QGraphicsItemGroup(par
     m_speedIndicatorClip = new OsdSpeedIndicatorClip(this);
     this->addToGroup(m_speedIndicatorClip);
 
+    QPainterPath path = QPainterPath(QPointF(0, boundingRect().height()));
+    path.lineTo(25, boundingRect().height());
+    path.quadTo(QPointF(60, 30), QPointF(190, 40));
+    path.lineTo(boundingRect().width(), 0);
+    path.lineTo(boundingRect().width() + 4, 0);
+    path.lineTo(194, 44);
+    path.quadTo(QPointF(62, 34), QPointF(29, boundingRect().height() + 4));
+    path.lineTo(0, boundingRect().height() + 4);
+    path.lineTo(0, boundingRect().height());
+    m_speedIndicatorUnderline = new QGraphicsPathItem(path);
+    m_speedIndicatorUnderline->setBrush(QBrush(QColor(255, 255, 255, 200)));
+    m_speedIndicatorUnderline->setPen(QColor(0, 0, 0, 50));
+    this->addToGroup(m_speedIndicatorUnderline);
+
     setSpeed(0);
 }
 
