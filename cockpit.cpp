@@ -35,7 +35,7 @@ Cockpit::Cockpit(const QCameraInfo& cameraInfo, QObject* parent) : QObject(paren
     m_rssi = new QGraphicsSimpleTextItem(cameraInfo.deviceName(), m_osdItemGroup);
     m_rssi->setBrush(QBrush(QColor(255, 255, 255, 200)));
     m_rssi->setFont(rssiFont);
-    m_rssi->setText("RSSI: " + QString::number(0));
+    m_rssi->setText("RSSI: ---");
     m_rssi->setPos(cameraItem->boundingRect().topRight().x() - m_rssi->boundingRect().width() - 5, cameraItem->boundingRect().topRight().y() + 5);
     m_osdItemGroup->addToGroup(m_rssi);
 
@@ -60,7 +60,7 @@ void Cockpit::processMqttMessage(const QString& topic, const QByteArray& message
         m_speedCounter->setSpeed(speedPercent);
     } else if (topic == QString("car/rssi")) {
         int rssi = message.toInt();
-        m_rssi->setText("RSSI: " + QString::number(rssi));
+        m_rssi->setText("RSSI: " + QString::number(rssi).rightJustified(3));
     } else {
         qDebug() << Q_FUNC_INFO << "MQTT message dropped: " << message << "from topic: " << topic;
     }
