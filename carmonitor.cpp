@@ -57,19 +57,22 @@ CarMonitor::~CarMonitor()
 
 void CarMonitor::onMqttStateChanged()
 {
-    QString m_mqttTopic = "carinsitu/cockpit";
-
     switch (m_mqttClient->state()) {
     case QMqttClient::Connected: {
-        auto subscription = m_mqttClient->subscribe(m_mqttTopic + "/#");
+        auto subscription = m_mqttClient->subscribe(QString("carinsitu/cockpit/#"));
         if (!subscription) {
             QMessageBox::critical(this, QLatin1String("Error"), QLatin1String("Could not subscribe. Is there a valid connection?"));
             return;
         }
         break;
     }
-    default:
-        qDebug() << "MQTT state: " << m_mqttClient->state();
+    case QMqttClient::Disconnected: {
+        QMessageBox::critical(this, QLatin1String("Error"), QLatin1String("MQTT client disconnected"));
+        break;
+    }
+    case QMqttClient::Connecting: {
+        break;
+    }
     }
 }
 
