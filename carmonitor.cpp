@@ -11,6 +11,7 @@
 #include <QCameraInfo>
 #include <QtWidgets/QMessageBox>
 #include <QGridLayout>
+#include <QCloseEvent>
 
 #include <QtDBus/QDBusConnection>
 #include <QtDBus/QDBusInterface>
@@ -92,30 +93,41 @@ void CarMonitor::onPrimaryScreenChanged(QScreen* screen)
 void CarMonitor::on_pb_displayCockpitHeadsetViews_toggled(bool checked)
 {
     if (checked) {
-        // Screens
-        QList<QScreen*> screensAvailable;
-        foreach (QScreen* screen, QGuiApplication::screens()) {
-            if (window()->windowHandle()->screen() == screen) {
-                qDebug() << "Screen: (primary):" << screen->name();
-            } else {
-                qDebug() << "Screen (secondary): " << screen->name();
-                screensAvailable.append(screen);
-            }
-        }
-
-        for (Cockpit* cockpit : m_cockpits) {
-            if (screensAvailable.size()) {
-                CockpitHeadsetView* headsetView = new CockpitHeadsetView(cockpit);
-                headsetView->setScreen(screensAvailable.takeFirst());
-                m_cockpitHeadsetViews.append(headsetView);
-            }
-        }
+        openCockpitHeadsetViews();
     } else {
-        for (CockpitHeadsetView* cockpitHeadsetView : m_cockpitHeadsetViews) {
-            cockpitHeadsetView->deleteLater();
-        }
-        m_cockpitHeadsetViews.clear();
+        closeCockpitHeadsetViews();
     }
+}
+
+void CarMonitor::openCockpitHeadsetViews()
+{
+    // Screens
+    QList<QScreen*> screensAvailable;
+    foreach (QScreen* screen, QGuiApplication::screens()) {
+        if (window()->windowHandle()->screen() == screen) {
+            qDebug() << "Screen: (primary):" << screen->name();
+        } else {
+            qDebug() << "Screen (secondary): " << screen->name();
+            screensAvailable.append(screen);
+        }
+    }
+
+    for (Cockpit* cockpit : m_cockpits) {
+        if (screensAvailable.size()) {
+            CockpitHeadsetView* headsetView = new CockpitHeadsetView(cockpit);
+            headsetView->setScreen(screensAvailable.takeFirst());
+            m_cockpitHeadsetViews.append(headsetView);
+        }
+    }
+}
+
+void CarMonitor::closeCockpitHeadsetViews()
+{
+    for (CockpitHeadsetView* cockpitHeadsetView : m_cockpitHeadsetViews) {
+        cockpitHeadsetView->close();
+        cockpitHeadsetView->deleteLater();
+    }
+    m_cockpitHeadsetViews.clear();
 }
 
 void CarMonitor::inhibitScreenSaver()
@@ -135,4 +147,10 @@ void CarMonitor::inhibitScreenSaver()
             qDebug() << error.message() << error.name();
         }
     }
+}
+
+void CarMonitor::closeEvent(QCloseEvent* event)
+{
+    closeCockpitHeadsetViews();
+    event->accept();
 }
