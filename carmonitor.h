@@ -21,6 +21,8 @@ public:
     explicit CarMonitor(QWidget* parent = nullptr);
     ~CarMonitor();
 
+    void openCockitHeadsetView(Cockpit* cockpit, QScreen* screen);
+
 private slots:
     void onMqttStateChanged();
     void onMqttMessageReceived(const QByteArray& message, const QMqttTopicName& topic);

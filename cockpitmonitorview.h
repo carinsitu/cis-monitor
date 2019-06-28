@@ -15,6 +15,7 @@ public:
 
 private:
     QGraphicsView* m_view;
+    Cockpit* m_cockpit;
 
 signals:
 
@@ -23,6 +24,7 @@ public slots:
 private slots:
     void resizeEvent(QResizeEvent* event);
     void showEvent(QShowEvent* event);
+    void mouseDoubleClickEvent(QMouseEvent* event);
 };
 
 #endif // COCKPITMONITORVIEW_H

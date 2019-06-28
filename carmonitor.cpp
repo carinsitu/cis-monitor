@@ -117,11 +117,16 @@ void CarMonitor::openCockpitHeadsetViews()
 
     for (Cockpit* cockpit : m_cockpits) {
         if (screensAvailable.size()) {
-            CockpitHeadsetView* headsetView = new CockpitHeadsetView(cockpit);
-            headsetView->setScreen(screensAvailable.takeFirst());
-            m_cockpitHeadsetViews.append(headsetView);
+            openCockitHeadsetView(cockpit, screensAvailable.takeFirst());
         }
     }
+}
+
+void CarMonitor::openCockitHeadsetView(Cockpit* cockpit, QScreen* screen)
+{
+    CockpitHeadsetView* headsetView = new CockpitHeadsetView(cockpit);
+    headsetView->setScreen(screen);
+    m_cockpitHeadsetViews.append(headsetView);
 }
 
 void CarMonitor::closeCockpitHeadsetViews()

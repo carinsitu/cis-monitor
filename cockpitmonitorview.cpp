@@ -1,8 +1,11 @@
 #include "cockpitmonitorview.h"
 
 #include <QVBoxLayout>
+#include <QWindow>
 
-CockpitMonitorView::CockpitMonitorView(Cockpit* cockpit, QWidget* parent) : QWidget(parent)
+#include "carmonitor.h"
+
+CockpitMonitorView::CockpitMonitorView(Cockpit* cockpit, QWidget* parent) : QWidget(parent), m_cockpit(cockpit)
 {
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setSpacing(0);
@@ -27,4 +30,10 @@ void CockpitMonitorView::showEvent(QShowEvent* event)
 {
     (void)event;
     m_view->fitInView(m_view->scene()->sceneRect());
+}
+
+void CockpitMonitorView::mouseDoubleClickEvent(QMouseEvent* event)
+{
+    (void)event;
+    dynamic_cast<CarMonitor*>(parent()->parent()->parent())->openCockitHeadsetView(m_cockpit, window()->windowHandle()->screen());
 }
