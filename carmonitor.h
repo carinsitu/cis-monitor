@@ -35,6 +35,7 @@ private:
     QList<CockpitHeadsetView*> m_cockpitHeadsetViews;
 
     void cockpitsSetup();
+    void inhibitScreenSaver();
 };
 
 #endif // CARMONITOR_H

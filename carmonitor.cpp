@@ -12,11 +12,17 @@
 #include <QtWidgets/QMessageBox>
 #include <QGridLayout>
 
+#include <QtDBus/QDBusConnection>
+#include <QtDBus/QDBusInterface>
+#include <QtDBus/QDBusReply>
+
 #include <QWindow>
 
 CarMonitor::CarMonitor(QWidget* parent) : QMainWindow(parent), ui(new Ui::CarMonitor)
 {
     ui->setupUi(this);
+
+    inhibitScreenSaver();
 
     // MQTT
     m_mqttClient = new QMqttClient(this);
@@ -109,5 +115,24 @@ void CarMonitor::on_pb_displayCockpitHeadsetViews_toggled(bool checked)
             cockpitHeadsetView->deleteLater();
         }
         m_cockpitHeadsetViews.clear();
+    }
+}
+
+void CarMonitor::inhibitScreenSaver()
+{
+    QDBusConnection bus = QDBusConnection::sessionBus();
+    if (bus.isConnected()) {
+        QString service = "org.freedesktop.ScreenSaver";
+        QString path = "/org/freedesktop/ScreenSaver";
+
+        QDBusInterface screenSaverInterface(service, path, service, bus, this);
+        if (!screenSaverInterface.isValid())
+            qDebug() << "Unable to inhibit screensaver";
+
+        QDBusReply<uint> reply = screenSaverInterface.call("Inhibit", "fr.opus-codium.cismonitor", "Driving a car");
+        if (!reply.isValid()) {
+            QDBusError error = reply.error();
+            qDebug() << error.message() << error.name();
+        }
     }
 }
