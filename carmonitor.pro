@@ -33,6 +33,7 @@ SOURCES += \
         cockpitheadsetview.cpp \
         cockpitmonitor.cpp \
         cockpitmonitorview.cpp \
+        enginesound.cpp \
         main.cpp \
         osdspeedcounter.cpp \
         osdspeedindicator.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
         cockpitheadsetview.h \
         cockpitmonitor.h \
         cockpitmonitorview.h \
+        enginesound.h \
         osdspeedcounter.h \
         osdspeedindicator.h \
         osdspeedindicatorclip.h \
@@ -66,3 +68,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     assets.qrc
+
+LIBS += -lopenal
+LIBS += -lalut
+

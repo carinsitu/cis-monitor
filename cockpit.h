@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "osdspeedcounter.h"
+#include "enginesound.h"
 
 #include <QCameraInfo>
 #include <QGraphicsItemGroup>
@@ -23,7 +24,7 @@ private:
     QGraphicsSimpleTextItem* m_text;
     QGraphicsSimpleTextItem* m_rssi;
     OsdSpeedCounter* m_speedCounter;
-
+    EngineSound* m_engineSound;
 signals:
 
 public slots:

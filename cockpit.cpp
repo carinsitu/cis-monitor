@@ -8,6 +8,9 @@
 
 Cockpit::Cockpit(const QCameraInfo& cameraInfo, QObject* parent) : QObject(parent)
 {
+    // Audio
+    m_engineSound = new EngineSound();
+
     m_scene = new QGraphicsScene(this);
     QFontDatabase::addApplicationFont(":/fonts/digital-7-mono.ttf");
     QFont rssiFont = QFont("Digital-7 Mono, Regular", 15, 1);
@@ -58,6 +61,7 @@ void Cockpit::processMqttMessage(const QString& topic, const QByteArray& message
         qreal speedReal = static_cast<qreal>(speed) / 32767.0;
         qint16 speedPercent = static_cast<qint16>(speedReal * 100.0);
         m_speedCounter->setSpeed(speedPercent);
+        m_engineSound->setSpeed(speedPercent);
     } else if (topic == QString("car/rssi")) {
         int rssi = message.toInt();
         m_rssi->setText("RSSI: " + QString::number(rssi).rightJustified(3));

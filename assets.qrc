@@ -1,5 +1,6 @@
 <RCC>
-    <qresource>
+    <qresource prefix="/">
         <file>fonts/digital-7-mono.ttf</file>
+        <file>wav/engine.wav</file>
     </qresource>
 </RCC>
