@@ -48,5 +48,5 @@ QPainterPath OsdSpeedIndicator::shape() const
 
 void OsdSpeedIndicator::setSpeed(qint16 speed)
 {
-    m_speed = speed;
+    m_speed = speed < 100 ? speed : 100;
 }
