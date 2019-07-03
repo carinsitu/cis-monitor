@@ -30,16 +30,16 @@ public:
     void say8();
     void say9();
     void say10();
-    void start();
-    void stop();
-    void setSpeed(qint16 speed);
+    void startEngine();
+    void stopEngine();
+    void setEngineSpeed(qint16 speed);
     QStringList listAllDevices();
 
 private:
     ALCenum m_error;
-    ALuint m_source;
+    ALuint m_sourceEngine;
     ALuint m_sourceVoice;
-    qreal m_defaultPitch;
+    qreal m_defaultEnginePitch;
     ALCdevice* m_device;
     ALCcontext* m_context;
     ALuint m_buffer;

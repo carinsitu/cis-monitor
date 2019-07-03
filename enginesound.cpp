@@ -5,14 +5,14 @@
 #include <QDebug>
 #include <QFile>
 
-EngineSound::EngineSound(QObject* parent) : QObject(parent), m_defaultPitch(1)
+EngineSound::EngineSound(QObject* parent) : QObject(parent), m_defaultEnginePitch(1)
 {
 }
 
 void EngineSound::init(char* deviceName)
 {
     // cleanup context
-    alDeleteSources(1, &m_source);
+    alDeleteSources(1, &m_sourceEngine);
     alDeleteSources(1, &m_sourceVoice);
     alDeleteBuffers(1, &m_buffer);
     alDeleteBuffers(1, &m_bufferReady);
@@ -110,38 +110,38 @@ void EngineSound::initVoice()
 
 void EngineSound::initEngine()
 {
-    alGenSources(static_cast<ALuint>(1), &m_source);
+    alGenSources(static_cast<ALuint>(1), &m_sourceEngine);
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-    alSourcef(m_source, AL_PITCH, static_cast<ALfloat>(m_defaultPitch));
+    alSourcef(m_sourceEngine, AL_PITCH, static_cast<ALfloat>(m_defaultEnginePitch));
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-    alSourcef(m_source, AL_GAIN, 1);
+    alSourcef(m_sourceEngine, AL_GAIN, 1);
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-    alSource3f(m_source, AL_POSITION, 0, 0, 0);
+    alSource3f(m_sourceEngine, AL_POSITION, 0, 0, 0);
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-    alSource3f(m_source, AL_VELOCITY, 0, 0, 0);
+    alSource3f(m_sourceEngine, AL_VELOCITY, 0, 0, 0);
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-    alSourcei(m_source, AL_LOOPING, AL_TRUE);
+    alSourcei(m_sourceEngine, AL_LOOPING, AL_TRUE);
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
     m_buffer = sampleBuffer(":/wav/engine.wav");
-    alSourcei(m_source, AL_BUFFER, static_cast<ALint>(m_buffer));
+    alSourcei(m_sourceEngine, AL_BUFFER, static_cast<ALint>(m_buffer));
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
@@ -253,6 +253,7 @@ void EngineSound::say3()
 {
     say("3", m_buffer3);
 }
+
 void EngineSound::say4()
 {
     say("4", m_buffer4);
@@ -288,28 +289,28 @@ void EngineSound::say10()
     say("10", m_buffer10);
 }
 
-void EngineSound::start()
+void EngineSound::startEngine()
 {
-    alSourcePlay(m_source);
+    alSourcePlay(m_sourceEngine);
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
     qDebug() << Q_FUNC_INFO << "Engine started";
 }
 
-void EngineSound::stop()
+void EngineSound::stopEngine()
 {
-    alSourceStop(m_source);
+    alSourceStop(m_sourceEngine);
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
     qDebug() << Q_FUNC_INFO << "Engine stopped";
 }
 
-void EngineSound::setSpeed(qint16 speed)
+void EngineSound::setEngineSpeed(qint16 speed)
 {
-    qreal pitchSpeed = m_defaultPitch + (speed * 0.01);
-    alSourcef(m_source, AL_PITCH, static_cast<ALfloat>(pitchSpeed));
+    qreal pitchSpeed = m_defaultEnginePitch + (speed * 0.01);
+    alSourcef(m_sourceEngine, AL_PITCH, static_cast<ALfloat>(pitchSpeed));
     // check for errors
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
@@ -345,8 +346,8 @@ void EngineSound::onSoundCardSelected(QString deviceName)
 {
     if (deviceName != "") {
         init(deviceName.toUtf8().data());
-        start();
+        startEngine();
     } else {
-        stop();
+        stopEngine();
     }
 }
