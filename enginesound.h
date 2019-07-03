@@ -25,6 +25,8 @@ private:
     ALCdevice* m_device;
     ALCcontext* m_context;
     ALuint m_buffer;
+    void initEngine();
+    ALuint sampleBuffer(QString ressource);
 signals:
 
 public slots:

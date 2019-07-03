@@ -56,10 +56,9 @@ void EngineSound::init(char* deviceName)
         if (m_error != AL_NO_ERROR)
             qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-        alGenSources(static_cast<ALuint>(1), &m_source);
-        m_error = alGetError();
-        if (m_error != AL_NO_ERROR)
-            qDebug() << Q_FUNC_INFO << alGetString(m_error);
+        initEngine();
+    }
+}
 
         alSourcef(m_source, AL_PITCH, static_cast<ALfloat>(m_defaultPitch));
         m_error = alGetError();
@@ -71,44 +70,66 @@ void EngineSound::init(char* deviceName)
         if (m_error != AL_NO_ERROR)
             qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-        alSource3f(m_source, AL_POSITION, 0, 0, 0);
-        m_error = alGetError();
-        if (m_error != AL_NO_ERROR)
-            qDebug() << Q_FUNC_INFO << alGetString(m_error);
+void EngineSound::initEngine()
+{
+    alGenSources(static_cast<ALuint>(1), &m_source);
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-        alSource3f(m_source, AL_VELOCITY, 0, 0, 0);
-        m_error = alGetError();
-        if (m_error != AL_NO_ERROR)
-            qDebug() << Q_FUNC_INFO << alGetString(m_error);
+    alSourcef(m_source, AL_PITCH, static_cast<ALfloat>(m_defaultPitch));
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-        alSourcei(m_source, AL_LOOPING, AL_TRUE);
-        m_error = alGetError();
-        if (m_error != AL_NO_ERROR)
-            qDebug() << Q_FUNC_INFO << alGetString(m_error);
+    alSourcef(m_source, AL_GAIN, 1);
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-        // ALUT init
-        if (!alutInitWithoutContext(nullptr, nullptr))
-            qDebug() << Q_FUNC_INFO << "Failed alutInitWithoutContext(NULL, NULL)";
+    alSource3f(m_source, AL_POSITION, 0, 0, 0);
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-        ALCenum alutError = alutGetError();
-        if (alutError != ALUT_ERROR_NO_ERROR)
-            qDebug() << Q_FUNC_INFO << alutGetErrorString(alutError);
+    alSource3f(m_source, AL_VELOCITY, 0, 0, 0);
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-        // make sure to call alutInitWithoutContext first
-        QFile fic(":/wav/engine.wav");
-        fic.open(QIODevice::ReadOnly);
-        m_buffer = alutCreateBufferFromFileImage(fic.readAll(), static_cast<ALsizei>(fic.size()));
-        alutError = alutGetError();
-        if (alutError != ALUT_ERROR_NO_ERROR)
-            qDebug() << Q_FUNC_INFO << "Failed alutCreateBufferFromFileImage(fic.readAll(), fic.size())";
+    alSourcei(m_source, AL_LOOPING, AL_TRUE);
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-        alSourcei(m_source, AL_BUFFER, static_cast<ALint>(m_buffer));
-        m_error = alGetError();
-        if (m_error != AL_NO_ERROR)
-            qDebug() << Q_FUNC_INFO << alGetString(m_error);
+    m_buffer = sampleBuffer(":/wav/engine.wav");
+    alSourcei(m_source, AL_BUFFER, static_cast<ALint>(m_buffer));
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << alGetString(m_error);
+}
 
-        alutExit();
-    }
+ALuint EngineSound::sampleBuffer(QString ressource)
+{
+    ALuint buffer;
+    // ALUT init
+    if (!alutInitWithoutContext(nullptr, nullptr))
+        qDebug() << Q_FUNC_INFO << "Failed alutInitWithoutContext(NULL, NULL)";
+
+    ALCenum alutError = alutGetError();
+    if (alutError != ALUT_ERROR_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << alutGetErrorString(alutError);
+
+    // make sure to call alutInitWithoutContext first
+    QFile fic(ressource);
+    fic.open(QIODevice::ReadOnly);
+    buffer = alutCreateBufferFromFileImage(fic.readAll(), static_cast<ALsizei>(fic.size()));
+    alutError = alutGetError();
+    if (alutError != ALUT_ERROR_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << "Failed alutCreateBufferFromFileImage(fic.readAll(), fic.size())";
+
+    alutExit();
+    return buffer;
 }
 
 void EngineSound::start()
