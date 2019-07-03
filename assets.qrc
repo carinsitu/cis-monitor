@@ -2,5 +2,22 @@
     <qresource prefix="/">
         <file>fonts/digital-7-mono.ttf</file>
         <file>wav/engine.wav</file>
+        <file>wav/go.wav</file>
+        <file>wav/ready.wav</file>
+        <file>wav/you_lose.wav</file>
+        <file>wav/you_win.wav</file>
+        <file>wav/1.wav</file>
+        <file>wav/2.wav</file>
+        <file>wav/3.wav</file>
+        <file>wav/4.wav</file>
+        <file>wav/5.wav</file>
+        <file>wav/6.wav</file>
+        <file>wav/7.wav</file>
+        <file>wav/8.wav</file>
+        <file>wav/9.wav</file>
+        <file>wav/10.wav</file>
+        <file>wav/game_over.wav</file>
+        <file>wav/hurry_up.wav</file>
+        <file>wav/round.wav</file>
     </qresource>
 </RCC>

@@ -13,7 +13,26 @@ void EngineSound::init(char* deviceName)
 {
     // cleanup context
     alDeleteSources(1, &m_source);
+    alDeleteSources(1, &m_sourceVoice);
     alDeleteBuffers(1, &m_buffer);
+    alDeleteBuffers(1, &m_bufferReady);
+    alDeleteBuffers(1, &m_bufferGo);
+    alDeleteBuffers(1, &m_bufferYouWin);
+    alDeleteBuffers(1, &m_bufferYouLose);
+    alDeleteBuffers(1, &m_bufferRound);
+    alDeleteBuffers(1, &m_bufferHurryUp);
+    alDeleteBuffers(1, &m_bufferGameOver);
+    alDeleteBuffers(1, &m_buffer1);
+    alDeleteBuffers(1, &m_buffer2);
+    alDeleteBuffers(1, &m_buffer3);
+    alDeleteBuffers(1, &m_buffer4);
+    alDeleteBuffers(1, &m_buffer5);
+    alDeleteBuffers(1, &m_buffer6);
+    alDeleteBuffers(1, &m_buffer7);
+    alDeleteBuffers(1, &m_buffer8);
+    alDeleteBuffers(1, &m_buffer9);
+    alDeleteBuffers(1, &m_buffer10);
+
     m_device = alcGetContextsDevice(m_context);
     alcMakeContextCurrent(nullptr);
     alcDestroyContext(m_context);
@@ -57,18 +76,37 @@ void EngineSound::init(char* deviceName)
             qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
         initEngine();
+        initVoice();
     }
 }
 
-        alSourcef(m_source, AL_PITCH, static_cast<ALfloat>(m_defaultPitch));
-        m_error = alGetError();
-        if (m_error != AL_NO_ERROR)
-            qDebug() << Q_FUNC_INFO << alGetString(m_error);
+void EngineSound::initVoice()
+{
+    alGenSources(static_cast<ALuint>(1), &m_sourceVoice);
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-        alSourcef(m_source, AL_GAIN, 1);
-        m_error = alGetError();
-        if (m_error != AL_NO_ERROR)
-            qDebug() << Q_FUNC_INFO << alGetString(m_error);
+    m_bufferReady = sampleBuffer(":/wav/ready.wav");
+    m_bufferGo = sampleBuffer(":/wav/go.wav");
+    m_bufferYouWin = sampleBuffer(":/wav/you_win.wav");
+    m_bufferYouLose = sampleBuffer(":/wav/you_lose.wav");
+    m_bufferRound = sampleBuffer(":/wav/round.wav");
+    m_bufferHurryUp = sampleBuffer(":/wav/hurry_up.wav");
+    m_bufferGameOver = sampleBuffer(":/wav/game_over.wav");
+    m_buffer1 = sampleBuffer(":/wav/1.wav");
+    m_buffer2 = sampleBuffer(":/wav/2.wav");
+    m_buffer3 = sampleBuffer(":/wav/3.wav");
+    m_buffer4 = sampleBuffer(":/wav/4.wav");
+    m_buffer5 = sampleBuffer(":/wav/5.wav");
+    m_buffer6 = sampleBuffer(":/wav/6.wav");
+    m_buffer7 = sampleBuffer(":/wav/7.wav");
+    m_buffer8 = sampleBuffer(":/wav/8.wav");
+    m_buffer9 = sampleBuffer(":/wav/9.wav");
+    m_buffer10 = sampleBuffer(":/wav/10.wav");
+
+    sayReady();
+}
 
 void EngineSound::initEngine()
 {
@@ -130,6 +168,124 @@ ALuint EngineSound::sampleBuffer(QString ressource)
 
     alutExit();
     return buffer;
+}
+
+void EngineSound::say(QString word, ALuint buffer)
+{
+    ALint bufferCount;
+    alGetSourcei(m_sourceVoice, AL_BUFFERS_PROCESSED, &bufferCount);
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << "Failed alSourcei(m_sourceVoice, AL_BUFFERS_PROCESSED, bufferCount)";
+
+    ALCenum sourceState;
+    alGetSourcei(m_sourceVoice, AL_SOURCE_STATE, &sourceState);
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << "Failed alGetSourcei(m_sourceVoice, AL_SOURCE_STATE, &sourceState)";
+
+    ALuint buffers;
+    alSourceUnqueueBuffers(m_sourceVoice, bufferCount, &buffers);
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << alGetString(m_error);
+
+    alSourceQueueBuffers(m_sourceVoice, static_cast<ALsizei>(1), &buffer);
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << alGetString(m_error);
+
+    if (sourceState != AL_PLAYING)
+        alSourcePlay(m_sourceVoice);
+    m_error = alGetError();
+    if (m_error != AL_NO_ERROR)
+        qDebug() << Q_FUNC_INFO << alGetString(m_error);
+
+    qDebug() << Q_FUNC_INFO << "Say" << word;
+}
+
+void EngineSound::sayReady()
+{
+    say("ready", m_bufferReady);
+}
+
+void EngineSound::sayGo()
+{
+    say("go", m_bufferGo);
+}
+
+void EngineSound::sayYouWin()
+{
+    say("you win", m_bufferYouWin);
+}
+
+void EngineSound::sayYouLose()
+{
+    say("you lose", m_bufferYouLose);
+}
+
+void EngineSound::sayRound()
+{
+    say("round", m_bufferRound);
+}
+
+void EngineSound::sayHurryUp()
+{
+    say("hurry up", m_bufferHurryUp);
+}
+
+void EngineSound::sayGameOver()
+{
+    say("game over", m_bufferGameOver);
+}
+
+void EngineSound::say1()
+{
+    say("1", m_buffer1);
+}
+
+void EngineSound::say2()
+{
+    say("2", m_buffer2);
+}
+
+void EngineSound::say3()
+{
+    say("3", m_buffer3);
+}
+void EngineSound::say4()
+{
+    say("4", m_buffer4);
+}
+
+void EngineSound::say5()
+{
+    say("5", m_buffer5);
+}
+
+void EngineSound::say6()
+{
+    say("6", m_buffer6);
+}
+
+void EngineSound::say7()
+{
+    say("7", m_buffer7);
+}
+
+void EngineSound::say8()
+{
+    say("8", m_buffer8);
+}
+
+void EngineSound::say9()
+{
+    say("9", m_buffer9);
+}
+
+void EngineSound::say10()
+{
+    say("10", m_buffer10);
 }
 
 void EngineSound::start()
