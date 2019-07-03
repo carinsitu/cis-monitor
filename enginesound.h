@@ -64,6 +64,7 @@ private:
     void initVoice();
     void say(QString word, ALuint buffer);
     ALuint sampleBuffer(QString ressource);
+    void cleanContext();
 signals:
 
 public slots:

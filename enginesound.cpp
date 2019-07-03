@@ -9,7 +9,7 @@ EngineSound::EngineSound(QObject* parent) : QObject(parent), m_defaultEnginePitc
 {
 }
 
-void EngineSound::init(char* deviceName)
+void EngineSound::cleanContext()
 {
     // cleanup context
     alDeleteSources(1, &m_sourceEngine);
@@ -37,6 +37,11 @@ void EngineSound::init(char* deviceName)
     alcMakeContextCurrent(nullptr);
     alcDestroyContext(m_context);
     alcCloseDevice(m_device);
+}
+
+void EngineSound::init(char* deviceName)
+{
+    cleanContext();
 
     // Open device (NULL is for default sound device)
     if (deviceName)
