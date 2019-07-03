@@ -12,5 +12,12 @@ CockpitMonitor::CockpitMonitor(Cockpit* cockpit, QWidget* parent) : QGroupBox(pa
 
     QLayout* layout = new QVBoxLayout;
     layout->addWidget(monitorView);
+
+    m_soundCardSelector = new QComboBox();
+    m_soundCardSelector->addItem("");
+    m_soundCardSelector->addItems(cockpit->engineSound()->listAllDevices());
+    connect(m_soundCardSelector, SIGNAL(currentTextChanged(QString)), cockpit->engineSound(), SLOT(onSoundCardSelected(QString)));
+    layout->addWidget(m_soundCardSelector);
+
     this->setLayout(layout);
 }

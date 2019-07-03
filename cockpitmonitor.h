@@ -11,6 +11,9 @@ class CockpitMonitor : public QGroupBox
     Q_OBJECT
 public:
     explicit CockpitMonitor(Cockpit* cockpit, QWidget* parent = nullptr);
+
+private:
+    QComboBox* m_soundCardSelector;
 signals:
 
 public slots:

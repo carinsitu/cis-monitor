@@ -9,6 +9,7 @@
 #include <QCameraInfo>
 #include <QGraphicsItemGroup>
 #include <QGraphicsSimpleTextItem>
+#include <QComboBox>
 
 class Cockpit : public QObject
 {
@@ -16,6 +17,7 @@ class Cockpit : public QObject
 public:
     explicit Cockpit(const QCameraInfo& cameraInfo, QObject* parent = nullptr);
     QGraphicsScene* scene() { return m_scene; }
+    EngineSound* engineSound() { return m_engineSound; }
     void processMqttMessage(const QString& topic, const QByteArray& message);
 
 private:

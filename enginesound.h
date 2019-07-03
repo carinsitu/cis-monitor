@@ -28,6 +28,7 @@ private:
 signals:
 
 public slots:
+    void onSoundCardSelected(QString deviceName);
 };
 
 #endif // ENGINESOUND_H

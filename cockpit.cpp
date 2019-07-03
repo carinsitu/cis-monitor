@@ -8,9 +8,6 @@
 
 Cockpit::Cockpit(const QCameraInfo& cameraInfo, QObject* parent) : QObject(parent)
 {
-    // Audio
-    m_engineSound = new EngineSound();
-
     m_scene = new QGraphicsScene(this);
     QFontDatabase::addApplicationFont(":/fonts/digital-7-mono.ttf");
     QFont rssiFont = QFont("Digital-7 Mono, Regular", 15, 1);
@@ -47,6 +44,9 @@ Cockpit::Cockpit(const QCameraInfo& cameraInfo, QObject* parent) : QObject(paren
     m_scene->addRect(m_osdItemGroup->boundingRect(), QPen(QColor("blue")));
     qDebug() << Q_FUNC_INFO << "Camera: " << cameraItem->boundingRect();
     qDebug() << Q_FUNC_INFO << "OSD: " << m_osdItemGroup->boundingRect();
+
+    // Audio
+    m_engineSound = new EngineSound();
 }
 
 void Cockpit::processMqttMessage(const QString& topic, const QByteArray& message)

@@ -7,7 +7,6 @@
 
 EngineSound::EngineSound(QObject* parent) : QObject(parent), m_defaultPitch(1)
 {
-    init();
 }
 
 void EngineSound::init(char* deviceName)
@@ -109,7 +108,6 @@ void EngineSound::init(char* deviceName)
             qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
         alutExit();
-        start();
     }
 }
 
@@ -164,4 +162,14 @@ QStringList EngineSound::listAllDevices()
         next += (len + 2);
     }
     return devicesList;
+}
+
+void EngineSound::onSoundCardSelected(QString deviceName)
+{
+    if (deviceName != "") {
+        init(deviceName.toUtf8().data());
+        start();
+    } else {
+        stop();
+    }
 }
