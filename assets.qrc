@@ -1,23 +1,23 @@
 <RCC>
     <qresource prefix="/">
         <file>fonts/digital-7-mono.ttf</file>
-        <file>wav/engine.wav</file>
-        <file>wav/go.wav</file>
-        <file>wav/ready.wav</file>
-        <file>wav/you_lose.wav</file>
-        <file>wav/you_win.wav</file>
-        <file>wav/1.wav</file>
-        <file>wav/2.wav</file>
-        <file>wav/3.wav</file>
-        <file>wav/4.wav</file>
-        <file>wav/5.wav</file>
-        <file>wav/6.wav</file>
-        <file>wav/7.wav</file>
-        <file>wav/8.wav</file>
-        <file>wav/9.wav</file>
-        <file>wav/10.wav</file>
-        <file>wav/game_over.wav</file>
-        <file>wav/hurry_up.wav</file>
-        <file>wav/round.wav</file>
+        <file>sounds/voices/1.wav</file>
+        <file>sounds/voices/10.wav</file>
+        <file>sounds/voices/2.wav</file>
+        <file>sounds/voices/3.wav</file>
+        <file>sounds/voices/4.wav</file>
+        <file>sounds/voices/5.wav</file>
+        <file>sounds/voices/6.wav</file>
+        <file>sounds/voices/7.wav</file>
+        <file>sounds/voices/8.wav</file>
+        <file>sounds/voices/9.wav</file>
+        <file>sounds/voices/game_over.wav</file>
+        <file>sounds/voices/go.wav</file>
+        <file>sounds/voices/hurry_up.wav</file>
+        <file>sounds/voices/ready.wav</file>
+        <file>sounds/voices/round.wav</file>
+        <file>sounds/voices/you_lose.wav</file>
+        <file>sounds/voices/you_win.wav</file>
+        <file>sounds/engine.wav</file>
     </qresource>
 </RCC>

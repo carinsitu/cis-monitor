@@ -92,23 +92,23 @@ void EngineSound::initVoice()
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-    m_bufferReady = sampleBuffer(":/wav/ready.wav");
-    m_bufferGo = sampleBuffer(":/wav/go.wav");
-    m_bufferYouWin = sampleBuffer(":/wav/you_win.wav");
-    m_bufferYouLose = sampleBuffer(":/wav/you_lose.wav");
-    m_bufferRound = sampleBuffer(":/wav/round.wav");
-    m_bufferHurryUp = sampleBuffer(":/wav/hurry_up.wav");
-    m_bufferGameOver = sampleBuffer(":/wav/game_over.wav");
-    m_buffer1 = sampleBuffer(":/wav/1.wav");
-    m_buffer2 = sampleBuffer(":/wav/2.wav");
-    m_buffer3 = sampleBuffer(":/wav/3.wav");
-    m_buffer4 = sampleBuffer(":/wav/4.wav");
-    m_buffer5 = sampleBuffer(":/wav/5.wav");
-    m_buffer6 = sampleBuffer(":/wav/6.wav");
-    m_buffer7 = sampleBuffer(":/wav/7.wav");
-    m_buffer8 = sampleBuffer(":/wav/8.wav");
-    m_buffer9 = sampleBuffer(":/wav/9.wav");
-    m_buffer10 = sampleBuffer(":/wav/10.wav");
+    m_bufferReady = sampleBuffer(":/sounds/voices/ready.wav");
+    m_bufferGo = sampleBuffer(":/sounds/voices/go.wav");
+    m_bufferYouWin = sampleBuffer(":/sounds/voices/you_win.wav");
+    m_bufferYouLose = sampleBuffer(":/sounds/voices/you_lose.wav");
+    m_bufferRound = sampleBuffer(":/sounds/voices/round.wav");
+    m_bufferHurryUp = sampleBuffer(":/sounds/voices/hurry_up.wav");
+    m_bufferGameOver = sampleBuffer(":/sounds/voices/game_over.wav");
+    m_buffer1 = sampleBuffer(":/sounds/voices/1.wav");
+    m_buffer2 = sampleBuffer(":/sounds/voices/2.wav");
+    m_buffer3 = sampleBuffer(":/sounds/voices/3.wav");
+    m_buffer4 = sampleBuffer(":/sounds/voices/4.wav");
+    m_buffer5 = sampleBuffer(":/sounds/voices/5.wav");
+    m_buffer6 = sampleBuffer(":/sounds/voices/6.wav");
+    m_buffer7 = sampleBuffer(":/sounds/voices/7.wav");
+    m_buffer8 = sampleBuffer(":/sounds/voices/8.wav");
+    m_buffer9 = sampleBuffer(":/sounds/voices/9.wav");
+    m_buffer10 = sampleBuffer(":/sounds/voices/10.wav");
 
     sayReady();
 }
@@ -145,7 +145,7 @@ void EngineSound::initEngine()
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-    m_buffer = sampleBuffer(":/wav/engine.wav");
+    m_buffer = sampleBuffer(":/sounds/engine.wav");
     alSourcei(m_sourceEngine, AL_BUFFER, static_cast<ALint>(m_buffer));
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
