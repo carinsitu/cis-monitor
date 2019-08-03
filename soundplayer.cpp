@@ -6,6 +6,7 @@
 
 #include <QDebug>
 #include <QFile>
+#include <QDir>
 
 SoundPlayer::SoundPlayer(QObject* parent) : QObject(parent), m_defaultEnginePitch(1)
 {
@@ -53,36 +54,29 @@ void SoundPlayer::init(char* deviceName)
             qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
         initEngine();
-        initVoice();
+        initVoices();
     }
 }
 
-void SoundPlayer::initVoice()
+void SoundPlayer::initVoices()
 {
     alGenSources(static_cast<ALuint>(1), &m_sourceVoice);
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-    m_bufferReady = createAlBufferFromRessource(":/sounds/voices/ready.wav");
-    m_bufferGo = createAlBufferFromRessource(":/sounds/voices/go.wav");
-    m_bufferYouWin = createAlBufferFromRessource(":/sounds/voices/you_win.wav");
-    m_bufferYouLose = createAlBufferFromRessource(":/sounds/voices/you_lose.wav");
-    m_bufferRound = createAlBufferFromRessource(":/sounds/voices/round.wav");
-    m_bufferHurryUp = createAlBufferFromRessource(":/sounds/voices/hurry_up.wav");
-    m_bufferGameOver = createAlBufferFromRessource(":/sounds/voices/game_over.wav");
-    m_buffer1 = createAlBufferFromRessource(":/sounds/voices/1.wav");
-    m_buffer2 = createAlBufferFromRessource(":/sounds/voices/2.wav");
-    m_buffer3 = createAlBufferFromRessource(":/sounds/voices/3.wav");
-    m_buffer4 = createAlBufferFromRessource(":/sounds/voices/4.wav");
-    m_buffer5 = createAlBufferFromRessource(":/sounds/voices/5.wav");
-    m_buffer6 = createAlBufferFromRessource(":/sounds/voices/6.wav");
-    m_buffer7 = createAlBufferFromRessource(":/sounds/voices/7.wav");
-    m_buffer8 = createAlBufferFromRessource(":/sounds/voices/8.wav");
-    m_buffer9 = createAlBufferFromRessource(":/sounds/voices/9.wav");
-    m_buffer10 = createAlBufferFromRessource(":/sounds/voices/10.wav");
+    loadVoices();
 
-    sayReady();
+    say("ready");
+}
+
+void SoundPlayer::loadVoices()
+{
+    QDir voicesDirectory(":/sounds/voices");
+    for (QFileInfo voiceFileInfo : voicesDirectory.entryInfoList()) {
+        QString text = voiceFileInfo.baseName().replace('_', ' ');
+        m_voicesHash[text] = createAlBufferFromRessource(voiceFileInfo.filePath());
+    }
 }
 
 void SoundPlayer::initEngine()
@@ -147,8 +141,15 @@ ALuint SoundPlayer::createAlBufferFromRessource(const QString& ressource)
     return buffer;
 }
 
-void SoundPlayer::say(QString word, ALuint buffer)
+void SoundPlayer::say(const QString& text)
 {
+    if (!m_voicesHash.contains(text)) {
+        qDebug() << Q_FUNC_INFO << "Voice not found: " << text;
+        return;
+    }
+
+    ALuint buffer = m_voicesHash.value(text);
+
     ALint bufferCount;
     alGetSourcei(m_sourceVoice, AL_BUFFERS_PROCESSED, &bufferCount);
     m_error = alGetError();
@@ -178,92 +179,7 @@ void SoundPlayer::say(QString word, ALuint buffer)
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-    qDebug() << Q_FUNC_INFO << "Say" << word;
-}
-
-void SoundPlayer::sayReady()
-{
-    say("ready", m_bufferReady);
-}
-
-void SoundPlayer::sayGo()
-{
-    say("go", m_bufferGo);
-}
-
-void SoundPlayer::sayYouWin()
-{
-    say("you win", m_bufferYouWin);
-}
-
-void SoundPlayer::sayYouLose()
-{
-    say("you lose", m_bufferYouLose);
-}
-
-void SoundPlayer::sayRound()
-{
-    say("round", m_bufferRound);
-}
-
-void SoundPlayer::sayHurryUp()
-{
-    say("hurry up", m_bufferHurryUp);
-}
-
-void SoundPlayer::sayGameOver()
-{
-    say("game over", m_bufferGameOver);
-}
-
-void SoundPlayer::say1()
-{
-    say("1", m_buffer1);
-}
-
-void SoundPlayer::say2()
-{
-    say("2", m_buffer2);
-}
-
-void SoundPlayer::say3()
-{
-    say("3", m_buffer3);
-}
-
-void SoundPlayer::say4()
-{
-    say("4", m_buffer4);
-}
-
-void SoundPlayer::say5()
-{
-    say("5", m_buffer5);
-}
-
-void SoundPlayer::say6()
-{
-    say("6", m_buffer6);
-}
-
-void SoundPlayer::say7()
-{
-    say("7", m_buffer7);
-}
-
-void SoundPlayer::say8()
-{
-    say("8", m_buffer8);
-}
-
-void SoundPlayer::say9()
-{
-    say("9", m_buffer9);
-}
-
-void SoundPlayer::say10()
-{
-    say("10", m_buffer10);
+    qDebug() << Q_FUNC_INFO << "Say" << text;
 }
 
 void SoundPlayer::startEngine()
@@ -331,27 +247,13 @@ void SoundPlayer::onSoundCardSelected(QString deviceName)
 
 void SoundPlayer::cleanContext()
 {
-    // cleanup context
     alDeleteSources(1, &m_sourceEngine);
     alDeleteSources(1, &m_sourceVoice);
     alDeleteBuffers(1, &m_buffer);
-    alDeleteBuffers(1, &m_bufferReady);
-    alDeleteBuffers(1, &m_bufferGo);
-    alDeleteBuffers(1, &m_bufferYouWin);
-    alDeleteBuffers(1, &m_bufferYouLose);
-    alDeleteBuffers(1, &m_bufferRound);
-    alDeleteBuffers(1, &m_bufferHurryUp);
-    alDeleteBuffers(1, &m_bufferGameOver);
-    alDeleteBuffers(1, &m_buffer1);
-    alDeleteBuffers(1, &m_buffer2);
-    alDeleteBuffers(1, &m_buffer3);
-    alDeleteBuffers(1, &m_buffer4);
-    alDeleteBuffers(1, &m_buffer5);
-    alDeleteBuffers(1, &m_buffer6);
-    alDeleteBuffers(1, &m_buffer7);
-    alDeleteBuffers(1, &m_buffer8);
-    alDeleteBuffers(1, &m_buffer9);
-    alDeleteBuffers(1, &m_buffer10);
+
+    for (ALuint voiceBuffer : m_voicesHash) {
+        alDeleteBuffers(1, &voiceBuffer);
+    }
 
     m_device = alcGetContextsDevice(m_context);
     alcMakeContextCurrent(nullptr);
