@@ -9,36 +9,6 @@ EngineSound::EngineSound(QObject* parent) : QObject(parent), m_defaultEnginePitc
 {
 }
 
-void EngineSound::cleanContext()
-{
-    // cleanup context
-    alDeleteSources(1, &m_sourceEngine);
-    alDeleteSources(1, &m_sourceVoice);
-    alDeleteBuffers(1, &m_buffer);
-    alDeleteBuffers(1, &m_bufferReady);
-    alDeleteBuffers(1, &m_bufferGo);
-    alDeleteBuffers(1, &m_bufferYouWin);
-    alDeleteBuffers(1, &m_bufferYouLose);
-    alDeleteBuffers(1, &m_bufferRound);
-    alDeleteBuffers(1, &m_bufferHurryUp);
-    alDeleteBuffers(1, &m_bufferGameOver);
-    alDeleteBuffers(1, &m_buffer1);
-    alDeleteBuffers(1, &m_buffer2);
-    alDeleteBuffers(1, &m_buffer3);
-    alDeleteBuffers(1, &m_buffer4);
-    alDeleteBuffers(1, &m_buffer5);
-    alDeleteBuffers(1, &m_buffer6);
-    alDeleteBuffers(1, &m_buffer7);
-    alDeleteBuffers(1, &m_buffer8);
-    alDeleteBuffers(1, &m_buffer9);
-    alDeleteBuffers(1, &m_buffer10);
-
-    m_device = alcGetContextsDevice(m_context);
-    alcMakeContextCurrent(nullptr);
-    alcDestroyContext(m_context);
-    alcCloseDevice(m_device);
-}
-
 void EngineSound::init(char* deviceName)
 {
     cleanContext();
@@ -355,4 +325,34 @@ void EngineSound::onSoundCardSelected(QString deviceName)
     } else {
         stopEngine();
     }
+}
+
+void EngineSound::cleanContext()
+{
+    // cleanup context
+    alDeleteSources(1, &m_sourceEngine);
+    alDeleteSources(1, &m_sourceVoice);
+    alDeleteBuffers(1, &m_buffer);
+    alDeleteBuffers(1, &m_bufferReady);
+    alDeleteBuffers(1, &m_bufferGo);
+    alDeleteBuffers(1, &m_bufferYouWin);
+    alDeleteBuffers(1, &m_bufferYouLose);
+    alDeleteBuffers(1, &m_bufferRound);
+    alDeleteBuffers(1, &m_bufferHurryUp);
+    alDeleteBuffers(1, &m_bufferGameOver);
+    alDeleteBuffers(1, &m_buffer1);
+    alDeleteBuffers(1, &m_buffer2);
+    alDeleteBuffers(1, &m_buffer3);
+    alDeleteBuffers(1, &m_buffer4);
+    alDeleteBuffers(1, &m_buffer5);
+    alDeleteBuffers(1, &m_buffer6);
+    alDeleteBuffers(1, &m_buffer7);
+    alDeleteBuffers(1, &m_buffer8);
+    alDeleteBuffers(1, &m_buffer9);
+    alDeleteBuffers(1, &m_buffer10);
+
+    m_device = alcGetContextsDevice(m_context);
+    alcMakeContextCurrent(nullptr);
+    alcDestroyContext(m_context);
+    alcCloseDevice(m_device);
 }
