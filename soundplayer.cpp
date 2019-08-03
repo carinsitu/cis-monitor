@@ -111,8 +111,8 @@ void SoundPlayer::initEngine()
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-    m_buffer = createAlBufferFromRessource(":/sounds/engine.wav");
-    alSourcei(m_sourceEngine, AL_BUFFER, static_cast<ALint>(m_buffer));
+    m_bufferEngine = createAlBufferFromRessource(":/sounds/engine.wav");
+    alSourcei(m_sourceEngine, AL_BUFFER, static_cast<ALint>(m_bufferEngine));
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
@@ -249,7 +249,7 @@ void SoundPlayer::cleanContext()
 {
     alDeleteSources(1, &m_sourceEngine);
     alDeleteSources(1, &m_sourceVoice);
-    alDeleteBuffers(1, &m_buffer);
+    alDeleteBuffers(1, &m_bufferEngine);
 
     for (ALuint voiceBuffer : m_voicesHash) {
         alDeleteBuffers(1, &voiceBuffer);

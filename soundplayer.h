@@ -27,7 +27,7 @@ private:
     qreal m_defaultEnginePitch;
     ALCdevice* m_device;
     ALCcontext* m_context;
-    ALuint m_buffer;
+    ALuint m_bufferEngine;
     QHash<QString, ALuint> m_voicesHash;
 
     void initEngine();
