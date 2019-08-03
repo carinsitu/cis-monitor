@@ -134,9 +134,9 @@ ALuint EngineSound::createAlBufferFromRessource(const QString& ressource)
         qDebug() << Q_FUNC_INFO << alutGetErrorString(alutError);
 
     // make sure to call alutInitWithoutContext first
-    QFile fic(ressource);
-    fic.open(QIODevice::ReadOnly);
-    buffer = alutCreateBufferFromFileImage(fic.readAll(), static_cast<ALsizei>(fic.size()));
+    QFile soundFile(ressource);
+    soundFile.open(QIODevice::ReadOnly);
+    buffer = alutCreateBufferFromFileImage(soundFile.readAll(), static_cast<ALsizei>(soundFile.size()));
     alutError = alutGetError();
     if (alutError != ALUT_ERROR_NO_ERROR)
         qDebug() << Q_FUNC_INFO << "Failed alutCreateBufferFromFileImage(fic.readAll(), fic.size())";
