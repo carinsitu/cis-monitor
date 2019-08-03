@@ -42,8 +42,6 @@ Cockpit::Cockpit(const QCameraInfo& cameraInfo, QObject* parent) : QObject(paren
     // Debug: display rects in OSD
     m_scene->addRect(cameraItem->boundingRect(), QPen(QColor("red")));
     m_scene->addRect(m_osdItemGroup->boundingRect(), QPen(QColor("blue")));
-    qDebug() << Q_FUNC_INFO << "Camera: " << cameraItem->boundingRect();
-    qDebug() << Q_FUNC_INFO << "OSD: " << m_osdItemGroup->boundingRect();
 
     // Audio
     m_soundPlayer = new SoundPlayer();
