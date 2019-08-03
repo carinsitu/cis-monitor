@@ -63,7 +63,7 @@ private:
     void initEngine();
     void initVoice();
     void say(QString word, ALuint buffer);
-    ALuint sampleBuffer(QString ressource);
+    ALuint createAlBufferFromRessource(const QString& ressource);
     void cleanContext();
 signals:
 

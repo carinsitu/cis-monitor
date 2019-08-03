@@ -92,23 +92,23 @@ void EngineSound::initVoice()
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-    m_bufferReady = sampleBuffer(":/sounds/voices/ready.wav");
-    m_bufferGo = sampleBuffer(":/sounds/voices/go.wav");
-    m_bufferYouWin = sampleBuffer(":/sounds/voices/you_win.wav");
-    m_bufferYouLose = sampleBuffer(":/sounds/voices/you_lose.wav");
-    m_bufferRound = sampleBuffer(":/sounds/voices/round.wav");
-    m_bufferHurryUp = sampleBuffer(":/sounds/voices/hurry_up.wav");
-    m_bufferGameOver = sampleBuffer(":/sounds/voices/game_over.wav");
-    m_buffer1 = sampleBuffer(":/sounds/voices/1.wav");
-    m_buffer2 = sampleBuffer(":/sounds/voices/2.wav");
-    m_buffer3 = sampleBuffer(":/sounds/voices/3.wav");
-    m_buffer4 = sampleBuffer(":/sounds/voices/4.wav");
-    m_buffer5 = sampleBuffer(":/sounds/voices/5.wav");
-    m_buffer6 = sampleBuffer(":/sounds/voices/6.wav");
-    m_buffer7 = sampleBuffer(":/sounds/voices/7.wav");
-    m_buffer8 = sampleBuffer(":/sounds/voices/8.wav");
-    m_buffer9 = sampleBuffer(":/sounds/voices/9.wav");
-    m_buffer10 = sampleBuffer(":/sounds/voices/10.wav");
+    m_bufferReady = createAlBufferFromRessource(":/sounds/voices/ready.wav");
+    m_bufferGo = createAlBufferFromRessource(":/sounds/voices/go.wav");
+    m_bufferYouWin = createAlBufferFromRessource(":/sounds/voices/you_win.wav");
+    m_bufferYouLose = createAlBufferFromRessource(":/sounds/voices/you_lose.wav");
+    m_bufferRound = createAlBufferFromRessource(":/sounds/voices/round.wav");
+    m_bufferHurryUp = createAlBufferFromRessource(":/sounds/voices/hurry_up.wav");
+    m_bufferGameOver = createAlBufferFromRessource(":/sounds/voices/game_over.wav");
+    m_buffer1 = createAlBufferFromRessource(":/sounds/voices/1.wav");
+    m_buffer2 = createAlBufferFromRessource(":/sounds/voices/2.wav");
+    m_buffer3 = createAlBufferFromRessource(":/sounds/voices/3.wav");
+    m_buffer4 = createAlBufferFromRessource(":/sounds/voices/4.wav");
+    m_buffer5 = createAlBufferFromRessource(":/sounds/voices/5.wav");
+    m_buffer6 = createAlBufferFromRessource(":/sounds/voices/6.wav");
+    m_buffer7 = createAlBufferFromRessource(":/sounds/voices/7.wav");
+    m_buffer8 = createAlBufferFromRessource(":/sounds/voices/8.wav");
+    m_buffer9 = createAlBufferFromRessource(":/sounds/voices/9.wav");
+    m_buffer10 = createAlBufferFromRessource(":/sounds/voices/10.wav");
 
     sayReady();
 }
@@ -145,14 +145,14 @@ void EngineSound::initEngine()
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 
-    m_buffer = sampleBuffer(":/sounds/engine.wav");
+    m_buffer = createAlBufferFromRessource(":/sounds/engine.wav");
     alSourcei(m_sourceEngine, AL_BUFFER, static_cast<ALint>(m_buffer));
     m_error = alGetError();
     if (m_error != AL_NO_ERROR)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 }
 
-ALuint EngineSound::sampleBuffer(QString ressource)
+ALuint EngineSound::createAlBufferFromRessource(const QString& ressource)
 {
     ALuint buffer;
     // ALUT init
