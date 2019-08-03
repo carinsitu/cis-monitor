@@ -1,15 +1,17 @@
-#include "enginesound.h"
+#include "soundplayer.h"
+
 #include "AL/al.h"
 #include "AL/alc.h"
 #include "AL/alut.h"
+
 #include <QDebug>
 #include <QFile>
 
-EngineSound::EngineSound(QObject* parent) : QObject(parent), m_defaultEnginePitch(1)
+SoundPlayer::SoundPlayer(QObject* parent) : QObject(parent), m_defaultEnginePitch(1)
 {
 }
 
-void EngineSound::init(char* deviceName)
+void SoundPlayer::init(char* deviceName)
 {
     cleanContext();
 
@@ -55,7 +57,7 @@ void EngineSound::init(char* deviceName)
     }
 }
 
-void EngineSound::initVoice()
+void SoundPlayer::initVoice()
 {
     alGenSources(static_cast<ALuint>(1), &m_sourceVoice);
     m_error = alGetError();
@@ -83,7 +85,7 @@ void EngineSound::initVoice()
     sayReady();
 }
 
-void EngineSound::initEngine()
+void SoundPlayer::initEngine()
 {
     alGenSources(static_cast<ALuint>(1), &m_sourceEngine);
     m_error = alGetError();
@@ -122,7 +124,7 @@ void EngineSound::initEngine()
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 }
 
-ALuint EngineSound::createAlBufferFromRessource(const QString& ressource)
+ALuint SoundPlayer::createAlBufferFromRessource(const QString& ressource)
 {
     ALuint buffer;
     // ALUT init
@@ -145,7 +147,7 @@ ALuint EngineSound::createAlBufferFromRessource(const QString& ressource)
     return buffer;
 }
 
-void EngineSound::say(QString word, ALuint buffer)
+void SoundPlayer::say(QString word, ALuint buffer)
 {
     ALint bufferCount;
     alGetSourcei(m_sourceVoice, AL_BUFFERS_PROCESSED, &bufferCount);
@@ -179,92 +181,92 @@ void EngineSound::say(QString word, ALuint buffer)
     qDebug() << Q_FUNC_INFO << "Say" << word;
 }
 
-void EngineSound::sayReady()
+void SoundPlayer::sayReady()
 {
     say("ready", m_bufferReady);
 }
 
-void EngineSound::sayGo()
+void SoundPlayer::sayGo()
 {
     say("go", m_bufferGo);
 }
 
-void EngineSound::sayYouWin()
+void SoundPlayer::sayYouWin()
 {
     say("you win", m_bufferYouWin);
 }
 
-void EngineSound::sayYouLose()
+void SoundPlayer::sayYouLose()
 {
     say("you lose", m_bufferYouLose);
 }
 
-void EngineSound::sayRound()
+void SoundPlayer::sayRound()
 {
     say("round", m_bufferRound);
 }
 
-void EngineSound::sayHurryUp()
+void SoundPlayer::sayHurryUp()
 {
     say("hurry up", m_bufferHurryUp);
 }
 
-void EngineSound::sayGameOver()
+void SoundPlayer::sayGameOver()
 {
     say("game over", m_bufferGameOver);
 }
 
-void EngineSound::say1()
+void SoundPlayer::say1()
 {
     say("1", m_buffer1);
 }
 
-void EngineSound::say2()
+void SoundPlayer::say2()
 {
     say("2", m_buffer2);
 }
 
-void EngineSound::say3()
+void SoundPlayer::say3()
 {
     say("3", m_buffer3);
 }
 
-void EngineSound::say4()
+void SoundPlayer::say4()
 {
     say("4", m_buffer4);
 }
 
-void EngineSound::say5()
+void SoundPlayer::say5()
 {
     say("5", m_buffer5);
 }
 
-void EngineSound::say6()
+void SoundPlayer::say6()
 {
     say("6", m_buffer6);
 }
 
-void EngineSound::say7()
+void SoundPlayer::say7()
 {
     say("7", m_buffer7);
 }
 
-void EngineSound::say8()
+void SoundPlayer::say8()
 {
     say("8", m_buffer8);
 }
 
-void EngineSound::say9()
+void SoundPlayer::say9()
 {
     say("9", m_buffer9);
 }
 
-void EngineSound::say10()
+void SoundPlayer::say10()
 {
     say("10", m_buffer10);
 }
 
-void EngineSound::startEngine()
+void SoundPlayer::startEngine()
 {
     alSourcePlay(m_sourceEngine);
     m_error = alGetError();
@@ -273,7 +275,7 @@ void EngineSound::startEngine()
     qDebug() << Q_FUNC_INFO << "Engine started";
 }
 
-void EngineSound::stopEngine()
+void SoundPlayer::stopEngine()
 {
     alSourceStop(m_sourceEngine);
     m_error = alGetError();
@@ -282,7 +284,7 @@ void EngineSound::stopEngine()
     qDebug() << Q_FUNC_INFO << "Engine stopped";
 }
 
-void EngineSound::setEngineSpeed(qint16 speed)
+void SoundPlayer::setEngineSpeed(qint16 speed)
 {
     qreal pitchSpeed = m_defaultEnginePitch + (speed * 0.01);
     alSourcef(m_sourceEngine, AL_PITCH, static_cast<ALfloat>(pitchSpeed));
@@ -292,7 +294,7 @@ void EngineSound::setEngineSpeed(qint16 speed)
         qDebug() << Q_FUNC_INFO << alGetString(m_error);
 }
 
-QStringList EngineSound::listAllDevices()
+QStringList SoundPlayer::listAllDevices()
 {
     // Check if we can enumerate devices
     QStringList devicesList;
@@ -317,7 +319,7 @@ QStringList EngineSound::listAllDevices()
     return devicesList;
 }
 
-void EngineSound::onSoundCardSelected(QString deviceName)
+void SoundPlayer::onSoundCardSelected(QString deviceName)
 {
     if (deviceName != "") {
         init(deviceName.toUtf8().data());
@@ -327,7 +329,7 @@ void EngineSound::onSoundCardSelected(QString deviceName)
     }
 }
 
-void EngineSound::cleanContext()
+void SoundPlayer::cleanContext()
 {
     // cleanup context
     alDeleteSources(1, &m_sourceEngine);

@@ -46,7 +46,7 @@ Cockpit::Cockpit(const QCameraInfo& cameraInfo, QObject* parent) : QObject(paren
     qDebug() << Q_FUNC_INFO << "OSD: " << m_osdItemGroup->boundingRect();
 
     // Audio
-    m_engineSound = new EngineSound();
+    m_soundPlayer = new SoundPlayer();
 }
 
 void Cockpit::processMqttMessage(const QString& topic, const QByteArray& message)
@@ -61,7 +61,7 @@ void Cockpit::processMqttMessage(const QString& topic, const QByteArray& message
         qreal speedReal = static_cast<qreal>(speed) / 32767.0;
         qint16 speedPercent = static_cast<qint16>(speedReal * 100.0);
         m_speedCounter->setSpeed(speedPercent);
-        m_engineSound->setEngineSpeed(speedPercent);
+        m_soundPlayer->setEngineSpeed(speedPercent);
     } else if (topic == QString("car/rssi")) {
         int rssi = message.toInt();
         m_rssi->setText("RSSI: " + QString::number(rssi).rightJustified(3));

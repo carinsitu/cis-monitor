@@ -33,11 +33,11 @@ SOURCES += \
         cockpitheadsetview.cpp \
         cockpitmonitor.cpp \
         cockpitmonitorview.cpp \
-        enginesound.cpp \
         main.cpp \
         osdspeedcounter.cpp \
         osdspeedindicator.cpp \
         osdspeedindicatorclip.cpp \
+        soundplayer.cpp \
         videoinputitem.cpp
 
 HEADERS += \
@@ -46,10 +46,10 @@ HEADERS += \
         cockpitheadsetview.h \
         cockpitmonitor.h \
         cockpitmonitorview.h \
-        enginesound.h \
         osdspeedcounter.h \
         osdspeedindicator.h \
         osdspeedindicatorclip.h \
+        soundplayer.h \
         videoinputitem.h
 
 FORMS += \

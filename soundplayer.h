@@ -1,5 +1,5 @@
-#ifndef ENGINESOUND_H
-#define ENGINESOUND_H
+#ifndef SOUNDPLAYER_H
+#define SOUNDPLAYER_H
 
 #include <QObject>
 
@@ -7,11 +7,11 @@
 #include "AL/alc.h"
 #include "AL/alut.h"
 
-class EngineSound : public QObject
+class SoundPlayer : public QObject
 {
     Q_OBJECT
 public:
-    explicit EngineSound(QObject* parent = nullptr);
+    explicit SoundPlayer(QObject* parent = nullptr);
     void init(char* deviceName = nullptr);
     void sayReady();
     void sayGo();
@@ -71,4 +71,4 @@ public slots:
     void onSoundCardSelected(QString deviceName);
 };
 
-#endif // ENGINESOUND_H
+#endif // SOUNDPLAYER_H

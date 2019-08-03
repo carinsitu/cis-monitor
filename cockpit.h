@@ -4,7 +4,7 @@
 #include <QObject>
 
 #include "osdspeedcounter.h"
-#include "enginesound.h"
+#include "soundplayer.h"
 
 #include <QCameraInfo>
 #include <QGraphicsItemGroup>
@@ -17,7 +17,7 @@ class Cockpit : public QObject
 public:
     explicit Cockpit(const QCameraInfo& cameraInfo, QObject* parent = nullptr);
     QGraphicsScene* scene() { return m_scene; }
-    EngineSound* engineSound() { return m_engineSound; }
+    SoundPlayer* soundPlayer() { return m_soundPlayer; }
     void processMqttMessage(const QString& topic, const QByteArray& message);
 
 private:
@@ -26,7 +26,7 @@ private:
     QGraphicsSimpleTextItem* m_text;
     QGraphicsSimpleTextItem* m_rssi;
     OsdSpeedCounter* m_speedCounter;
-    EngineSound* m_engineSound;
+    SoundPlayer* m_soundPlayer;
 signals:
 
 public slots:
