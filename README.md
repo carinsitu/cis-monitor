@@ -1,3 +1,5 @@
+:warning: **Depreciation note:** The code is now obsolete and the new *CarInSitu* version no longer uses this application.
+
 # Car Monitor
 
 ## Development
